@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="${package}.database.dao.${className}Dao">
+
+    #set ( $sort = "" )
+    #set ( $order = "" )
+    <resultMap id="resultBean" type="${package}.database.model.${className}${suffix}"></resultMap>
+    <parameterMap id="parameterBean"  type="${package}.database.model.${className}${suffix}"></parameterMap>
+    <sql id="tableName">`${tableName}`</sql>
+    <sql id="columns"><trim suffixOverrides=",">#foreach($column in $columns)`$column.columnName`,#end</trim></sql>
+
+    <sql id="where">
+        <where>
+#foreach($column in $columns)
+            <if test='$column.attrLowerName != null and ${column.attrLowerName.trim()}.toString() != "" '>and `$column.columnName` = #{$column.attrLowerName}</if>
+#end
+#foreach($column in $columns)
+#if($column.attrType=='String')
+            <if test='${column.attrLowerName}Like != null and ${column.attrLowerName}Like.trim() != ""'>and `$column.columnName` like
+                CONCAT('%', #{${column.attrLowerName}Like}, '%')
+            </if>
+#end
+#end
+        </where>
+    </sql>
+
+#if(${suffix}=="DO")
+    <sql id="columnsNotNull">
+        <trim suffixOverrides=",">
+#foreach($column in $columns)
+            <if test="$column.attrLowerName != null">`$column.columnName`,</if>
+#end
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+#foreach($column in $columns)
+            <if test="$column.attrLowerName != null">#{$column.attrLowerName},</if>
+#end
+        </trim>
+    </sql>
+    <sql id="set">
+        <set>
+#foreach($column in $columns)
+#if($column.columnName != "id")
+            <if test="$column.attrLowerName != null">`$column.columnName` = #{$column.attrLowerName},</if>
+#end
+#end
+        </set>
+    </sql>
+#end
+
+    <select id="select" resultMap="resultBean">
+        select <include refid="columns"></include> from <include refid="tableName"></include>
+        <include refid="where"></include>
+        <if  test="sort != null and sort.trim() != ''">
+            order by \${sort} \${order}
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(*) from <include refid="tableName"></include>
+        <include refid="where"></include>
+    </select>
+
+#if(${suffix}=="DO")
+    <select id="selectById" resultMap="resultBean">
+        select <include refid="columns"></include> from <include refid="tableName"></include> where id = #{value}
+    </select>
+
+    <insert id="insert" parameterMap="parameterBean" useGeneratedKeys="true" keyProperty="id">
+        insert into <include refid="tableName"></include>
+        (<include refid="columnsNotNull"></include>)
+        values (<include refid="value"></include>)
+    </insert>
+
+    <update id="update" parameterMap="parameterBean">
+        update <include refid="tableName"></include>
+        <include refid="set"></include>
+        where `id` = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from <include refid="tableName"></include> where `id` = #{value}
+    </delete>
+#end
+</mapper>
