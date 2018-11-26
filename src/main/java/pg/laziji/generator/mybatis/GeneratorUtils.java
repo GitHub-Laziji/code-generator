@@ -4,7 +4,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +12,6 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-@Service
 class GeneratorUtils {
 
     static public void generatorCode(TableDO table, ZipOutputStream zip, Map<String, String> config) {
