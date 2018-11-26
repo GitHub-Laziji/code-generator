@@ -8,8 +8,6 @@ import javax.annotation.Resource;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 import java.util.zip.ZipOutputStream;
 
 @Service
@@ -21,12 +19,14 @@ public class GeneratorService {
     @Resource
     private GeneratorUtils generatorUtils;
 
-    public void generateZip(String[] tableNames , String zipPath) throws IOException {
+    public void generateZip(String[] tableNames, String zipPath) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
-        for(String tableName : tableNames){
-            List<Map<String, String>> columns = generatorMapper.listColumns(tableName);
-            generatorUtils.generatorCode(tableName, columns, zip);
+        for (String tableName : tableNames) {
+            TableDO table = new TableDO();
+            table.setTableName(tableName);
+            table.setColumns(generatorMapper.listColumns(tableName));
+            generatorUtils.generatorCode(table, zip);
         }
         IOUtils.closeQuietly(zip);
         FileOutputStream file = new FileOutputStream(zipPath);

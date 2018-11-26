@@ -1,5 +1,7 @@
 package pg.laziji.generator.mybatis;
 
+import org.apache.commons.lang.WordUtils;
+
 import java.util.List;
 
 public class TableDO {
@@ -7,6 +9,7 @@ public class TableDO {
     private String tableName;
     private List<ColumnDO> columns;
     private String className;
+    private String suffix;
 
     public String getTableName() {
         return tableName;
@@ -14,6 +17,8 @@ public class TableDO {
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
+        this.className = WordUtils.capitalizeFully(tableName, new char[]{'_'}).replace("_", "");
+        this.suffix = tableName.endsWith("_view")?"VO":"DO";
     }
 
     public List<ColumnDO> getColumns() {
@@ -28,7 +33,7 @@ public class TableDO {
         return className;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public String getSuffix() {
+        return suffix;
     }
 }
