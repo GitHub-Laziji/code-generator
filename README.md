@@ -5,7 +5,7 @@ Java数据库`Mapper, Dao, Service`代码自动生成器
 
 代码模版位于`resources/mybatis/`中, 可根据需要自行修改
 
-> pom.xml中为了简便引人了 [commons-mybatis](https://github.com/GitHub-Laziji/commons-mybatis) 和 父依赖 [commons-parent](https://github.com/GitHub-Laziji/commons-parent) 
+> 当前模版是根据 [commons-mybatis](https://github.com/GitHub-Laziji/commons-mybatis) 架构编写的, 若不适合可以自行修改模版
 
 
 # 配置文件
