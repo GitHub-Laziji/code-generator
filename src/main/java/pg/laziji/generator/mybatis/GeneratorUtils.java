@@ -14,42 +14,40 @@ import java.util.zip.ZipOutputStream;
 
 class GeneratorUtils {
 
-    static public void generatorCode(TableDO table, ZipOutputStream zip, Map<String, String> config) {
-        String packageName = config.get("package");
+    static public void generatorCode(TableDO table, ZipOutputStream zos, Map<String, String> config) {
 
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", table.getTableName());
         map.put("className", table.getClassName());
-        map.put("pathName", packageName.substring(packageName.lastIndexOf(".") + 1));
         map.put("columns", table.getColumns());
-        map.put("package", packageName);
         map.put("suffix", table.getSuffix());
+        map.put("package", config.get("package"));
 
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(prop);
         VelocityContext context = new VelocityContext(map);
 
-        List<String> templates = new ArrayList<>();
-        templates.add("mybatis/Model.java.vm");
-        templates.add("mybatis/Query.java.vm");
-        templates.add("mybatis/Dao.java.vm");
-        templates.add("mybatis/Mapper.xml.vm");
-        templates.add("mybatis/Service.java.vm");
 
-        for (String template : templates) {
-            StringWriter sw = new StringWriter();
-            Template tpl = Velocity.getTemplate(template, "UTF-8");
-            tpl.merge(context, sw);
-            try {
-                String fileName = getFileName(template, table, config);
-                if (fileName == null) {
-                    continue;
-                }
-                zip.putNextEntry(new ZipEntry(fileName));
-                IOUtils.write(sw.toString(), zip, "UTF-8");
-                IOUtils.closeQuietly(sw);
-                zip.closeEntry();
+        String[] templatePaths = {
+                "mybatis/Model.java.vm",
+                "mybatis/Query.java.vm",
+                "mybatis/Dao.java.vm",
+                "mybatis/Mapper.xml.vm",
+                "mybatis/Service.java.vm"
+        };
+
+        for (String path : templatePaths) {
+            Template template = Velocity.getTemplate(path, "UTF-8");
+            String fileName = getFileName(path, table, config);
+            if (fileName == null) {
+                continue;
+            }
+            try (StringWriter writer = new StringWriter()) {
+                template.merge(context, writer);
+                zos.putNextEntry(new ZipEntry(fileName));
+                IOUtils.write(writer.toString(), zos, "UTF-8");
+                zos.closeEntry();
             } catch (IOException e) {
                 e.printStackTrace();
             }

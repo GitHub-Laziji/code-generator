@@ -1,7 +1,5 @@
 package pg.laziji.generator.mybatis;
 
-
-import org.apache.commons.io.IOUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
@@ -22,25 +20,28 @@ public class GeneratorService {
     @Resource
     private Environment environment;
 
-    public void generateZip(String[] tableNames, String zipPath) throws IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ZipOutputStream zip = new ZipOutputStream(outputStream);
-        for (String tableName : tableNames) {
-            TableDO table = new TableDO();
-            table.setTableName(tableName);
-            table.setColumns(generatorMapper.listColumns(tableName));
-            GeneratorUtils.generatorCode(table, zip,getConfig());
+    public void generateZip(String[] tableNames, String zipPath) {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        try (
+                ZipOutputStream zos = new ZipOutputStream(bos);
+                FileOutputStream fos = new FileOutputStream(zipPath)
+        ) {
+            for (String tableName : tableNames) {
+                TableDO table = new TableDO();
+                table.setTableName(tableName);
+                table.setColumns(generatorMapper.listColumns(tableName));
+                GeneratorUtils.generatorCode(table, zos, getConfig());
+            }
+            fos.write(bos.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        IOUtils.closeQuietly(zip);
-        FileOutputStream file = new FileOutputStream(zipPath);
-        file.write(outputStream.toByteArray());
-        file.close();
     }
 
-    private Map<String,String> getConfig(){
-        Map<String,String> config = new HashMap<>();
-        config.put("package",environment.getProperty("generator.package",""));
-        config.put("resources",environment.getProperty("generator.resources",""));
+    private Map<String, String> getConfig() {
+        Map<String, String> config = new HashMap<>();
+        config.put("package", environment.getProperty("generator.package", ""));
+        config.put("resources", environment.getProperty("generator.resources", ""));
         return config;
     }
 }
