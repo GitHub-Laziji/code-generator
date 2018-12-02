@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/example?characterEncoding=utf-8
+    username: example
+    password: example
+
+generator:
+  package: com.g.example
+  resources: mapper
