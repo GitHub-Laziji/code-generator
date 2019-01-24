@@ -24,8 +24,11 @@ public class GeneratorService {
     @Value("${generator.package:com.g.example}")
     private String packagePath;
 
-    @Value("${generator.resources:mapper}")
-    private String resourcesPath;
+    @Value("${generator.template.path:}")
+    private String templatePath;
+
+    @Value("${generator.template.mapping:}")
+    private String templateMapping;
 
 
     public void generateZip(String[] tableNames, String zipPath) {
@@ -46,6 +49,7 @@ public class GeneratorService {
         }
     }
 
+
     private void generatorCode(TableDO table, ZipOutputStream zos) {
 
         Map<String, Object> map = new HashMap<>();
@@ -54,30 +58,19 @@ public class GeneratorService {
         map.put("columns", table.getColumns());
         map.put("suffix", table.getSuffix());
         map.put("package", packagePath);
+        map.put("packageFilePath", packagePath.replace(".","/"));
 
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(prop);
         VelocityContext context = new VelocityContext(map);
 
-
-        String[] templatePaths = {
-                "mybatis/Model.java.vm",
-                "mybatis/Query.java.vm",
-                "mybatis/Dao.java.vm",
-                "mybatis/Mapper.xml.vm",
-                "mybatis/Service.java.vm"
-        };
-
-        for (String path : templatePaths) {
-            Template template = Velocity.getTemplate(path, "UTF-8");
-            String fileName = getFileName(path, table);
-            if (fileName == null) {
-                continue;
-            }
+        Map<String, String> templateMap = parseTemplateMapping(map);
+        for (Map.Entry<String,String> entry:templateMap.entrySet()) {
+            Template template = Velocity.getTemplate(entry.getKey(), "UTF-8");
             try (StringWriter writer = new StringWriter()) {
                 template.merge(context, writer);
-                zos.putNextEntry(new ZipEntry(fileName));
+                zos.putNextEntry(new ZipEntry(entry.getValue()));
                 IOUtils.write(writer.toString(), zos, "UTF-8");
                 zos.closeEntry();
             } catch (IOException e) {
@@ -86,30 +79,18 @@ public class GeneratorService {
         }
     }
 
-    private String getFileName(String template, TableDO table) {
-        String packagePath = "main/java/" + this.packagePath.replace(".", "/") + "/database/";
-        String resourcesPath = "main/resources/" + this.resourcesPath.replace(".", "/") + "/";
-
-        String result = null;
-        if (template.contains("Model.java.vm")) {
-            result = packagePath + "model/" + table.getClassName() + table.getSuffix() + ".java";
+    private Map<String, String> parseTemplateMapping(Map<String, Object> info) {
+        String[] rows = templateMapping.split("\n");
+        Map<String, String> templateMap = new HashMap<>();
+        for (String row : rows) {
+            String[] vs = row.split(":");
+            for (Map.Entry<String, Object> entry : info.entrySet()) {
+                if (entry.getValue() instanceof String) {
+                    vs[1] = vs[1].replace("{" + entry.getKey() + "}", entry.getValue().toString());
+                }
+            }
+            templateMap.put(templatePath + "/" + vs[0].trim(), vs[1]);
         }
-        if (template.contains("Query.java.vm")) {
-            result = packagePath + "query/" + table.getClassName() + "Query.java";
-        }
-        if (template.contains("Dao.java.vm")) {
-            result = packagePath + "dao/" + table.getClassName() + "Dao.java";
-        }
-        if (template.contains("Service.java.vm")) {
-            result = packagePath + "service/" + table.getClassName() + "Service.java";
-        }
-        if (template.contains("Mapper.xml.vm")) {
-            result = resourcesPath + table.getClassName() + "Mapper.xml";
-        }
-
-        if (result == null) {
-            return null;
-        }
-        return result.replace("/", File.separator);
+        return templateMap;
     }
 }

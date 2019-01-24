@@ -1,9 +1,17 @@
 spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/example?characterEncoding=utf-8
-    username: example
-    password: example
+    username: root
+    password: root
 
 generator:
   package: com.g.example
   resources: mapper
+  template:
+    path: mybatis
+    mapping: |
+      Model.java.vm: main/java/{package}/database/model/{className}{suffix}.java
+      Query.java.vm: main/java/{package}/database/query/{className}Query.java
+      Dao.java.vm: main/java/{package}/database/dao/{className}.java
+      Service.java.vm: main/java/{package}/database/service/{className}Service.java
+      Mapper.xml.vm: main/resources/{className}Mapper.xml
