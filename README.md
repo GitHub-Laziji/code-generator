@@ -11,7 +11,16 @@ Java数据库`Mapper, Dao, Service`代码自动生成器
 # 配置文件
 在`resources`下创建`application-${name}.yml`文件, `${name}`随意, 例如: `application-example.yml`, 可创建多个
 
-配置文件内容如下, 填入数据库配置, 以及生成代码的包名, 源文件路径
+配置文件内容如下, 填入数据库配置, 以及生成代码的包名 
+
+模版文件映射用于自定义生成文件的包格式以及文件名
+
+动态属性包含
+- {packageFilePath} 包文件路径 例如: `com/xxx/xxx`
+- {className} 类名
+- {suffix} 类名后缀
+
+一般按以下配置即可
 ```
 spring:
   datasource:
@@ -21,7 +30,14 @@ spring:
 
 generator:
   package: com.xxx.xxx
-  resources: mapper
+  template:
+    path: mybatis
+    mapping: |
+      Model.java.vm: main/java/{packageFilePath}/database/model/{className}.java
+      Query.java.vm: main/java/{packageFilePath}/database/query/{className}Query.java
+      Dao.java.vm: main/java/{packageFilePath}/database/dao/{className}.java
+      Service.java.vm: main/java/{packageFilePath}/database/service/{className}Service.java
+      Mapper.xml.vm: main/resources/mapper/{className}Mapper.xml
 ```
 
 # 使用

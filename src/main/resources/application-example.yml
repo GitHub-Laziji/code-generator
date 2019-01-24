@@ -6,12 +6,11 @@ spring:
 
 generator:
   package: com.g.example
-  resources: mapper
   template:
     path: mybatis
     mapping: |
-      Model.java.vm: main/java/{package}/database/model/{className}{suffix}.java
-      Query.java.vm: main/java/{package}/database/query/{className}Query.java
-      Dao.java.vm: main/java/{package}/database/dao/{className}.java
-      Service.java.vm: main/java/{package}/database/service/{className}Service.java
-      Mapper.xml.vm: main/resources/{className}Mapper.xml
+      Model.java.vm: main/java/{packageFilePath}/database/model/{className}{suffix}.java
+      Query.java.vm: main/java/{packageFilePath}/database/query/{className}Query.java
+      Dao.java.vm: main/java/{packageFilePath}/database/dao/{className}.java
+      Service.java.vm: main/java/{packageFilePath}/database/service/{className}Service.java
+      Mapper.xml.vm: main/resources/mapper/{className}Mapper.xml
