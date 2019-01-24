@@ -18,14 +18,10 @@ public class ExampleTest {
     @Resource
     private GeneratorService generatorService;
 
-    @Value("${generator.template.mapping:}")
-    private String ts;
-
     @Test
     public void test(){
         String[] tableNames = new String[]{"table1","table2"};
-        String zipPath = "D:/TEST/code.zip";
+        String zipPath = "/home/code.zip";
         generatorService.generateZip(tableNames,zipPath);
-        System.out.println(ts);
     }
 }
