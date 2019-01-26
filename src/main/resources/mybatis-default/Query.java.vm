@@ -1,0 +1,95 @@
+package ${package}.database.query;
+
+import java.util.Date;
+import com.alibaba.fastjson.JSON;
+
+public class ${className}Query {
+
+    private Integer limit = 1;
+    private Integer page = 0;
+    private Integer offset = 0;
+    private String sort;
+    private String order;
+
+#foreach ($column in $columns)
+    private $column.attrType $column.attrLowerName;
+#if($column.attrType=='String')
+    private $column.attrType ${column.attrLowerName}Like;
+#end
+#end
+
+#foreach ($column in $columns)
+    public void set${column.attrName}($column.attrType $column.attrLowerName) {
+        this.$column.attrLowerName = $column.attrLowerName;
+    }
+    public $column.attrType get${column.attrName}() {
+        return $column.attrLowerName;
+    }
+#if($column.attrType=='String')
+    public void set${column.attrName}Like($column.attrType ${column.attrLowerName}Like) {
+        this.${column.attrLowerName}Like = ${column.attrLowerName}Like;
+    }
+    public $column.attrType get${column.attrName}Like() {
+        return ${column.attrLowerName}Like;
+    }
+#end
+#end
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit > 0 ? limit : 1;
+        this.offset = this.page * this.limit;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        if (page == null) {
+            page = 0;
+        }
+        this.page = page >= 0 ? page : 0;
+        this.offset = this.page * this.limit;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        if (order == null) {
+            this.order = null;
+            return;
+        }
+        String t = order.toLowerCase();
+        if (!"asc".equals(t) && !"desc".equals(t)) {
+            return;
+        }
+        this.order = order;
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
+}

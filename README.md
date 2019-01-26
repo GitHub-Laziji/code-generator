@@ -3,7 +3,7 @@
 Java数据库`Mapper, Dao, Service`代码自动生成器
 
 
-代码模版位于`resources/mybatis/`中, 可根据需要自行修改
+代码模版位于`resources`下, 可根据需要自行修改
 
 > 当前模版是根据 [commons-mybatis](https://github.com/GitHub-Laziji/commons-mybatis) 架构编写的, 若不适合可以自行修改模版
 
@@ -17,10 +17,14 @@ Java数据库`Mapper, Dao, Service`代码自动生成器
 
 动态属性包含
 - {packageFilePath} 包文件路径 例如: `com/xxx/xxx`
-- {className} 类名
-- {suffix} 类名后缀
+- {className} 类名 由表名改为驼峰命名法得来
+- {suffix} 类名后缀 DO或VO
 
-一般按以下配置即可
+一般按以下配置即可 
+
+现在项目中有两套模版`template.path` 可以选`mybatis` 或 `mybatis-default`
+
+也可以自行扩展
 ```
 spring:
   datasource:

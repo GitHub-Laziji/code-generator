@@ -1,0 +1,25 @@
+package ${package}.database.model;
+
+import java.util.Date;
+import com.alibaba.fastjson.JSON;
+
+public class ${className}{
+
+#foreach ($column in $columns)
+	private $column.attrType $column.attrLowerName;
+#end
+
+#foreach ($column in $columns)
+	public void set${column.attrName}($column.attrType $column.attrLowerName) {
+		this.$column.attrLowerName = $column.attrLowerName;
+	}
+	public $column.attrType get${column.attrName}() {
+		return $column.attrLowerName;
+	}
+#end
+
+	@Override
+	public String toString() {
+		return JSON.toJSONString(this);
+	}
+}

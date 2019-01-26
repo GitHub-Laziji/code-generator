@@ -7,10 +7,20 @@ spring:
 generator:
   package: com.g.example
   template:
-    path: mybatis
+#    Dependent https://github.com/GitHub-Laziji/commons-mybatis
+#    path: mybatis
+#    mapping: |
+#      Model.java.vm: main/java/{packageFilePath}/database/model/{className}{suffix}.java
+#      Query.java.vm: main/java/{packageFilePath}/database/query/{className}Query.java
+#      Dao.java.vm: main/java/{packageFilePath}/database/dao/{className}.java
+#      Service.java.vm: main/java/{packageFilePath}/database/service/{className}Service.java
+#      Mapper.xml.vm: main/resources/mapper/{className}Mapper.xml
+
+
+#    default
+    path: mybatis-default
     mapping: |
-      Model.java.vm: main/java/{packageFilePath}/database/model/{className}{suffix}.java
+      Model.java.vm: main/java/{packageFilePath}/database/model/{className}.java
       Query.java.vm: main/java/{packageFilePath}/database/query/{className}Query.java
       Dao.java.vm: main/java/{packageFilePath}/database/dao/{className}.java
-      Service.java.vm: main/java/{packageFilePath}/database/service/{className}Service.java
       Mapper.xml.vm: main/resources/mapper/{className}Mapper.xml
