@@ -1,13 +1,13 @@
-package pg.laziji.generator.mybatis;
+package pg.laziji.generator.mybatis.model;
 
 import org.apache.commons.lang.WordUtils;
 
 import java.util.List;
 
-public class TableDO {
+public class Table {
 
     private String tableName;
-    private List<ColumnDO> columns;
+    private List<Column> columns;
     private String className;
     private String suffix;
 
@@ -17,19 +17,25 @@ public class TableDO {
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
-        this.className = WordUtils.capitalizeFully(tableName, new char[]{'_'}).replace("_", "");
-        this.suffix = tableName.endsWith("_view")?"VO":"DO";
+        this.suffix = tableName.endsWith("_view") ? "VO" : "DO";
     }
 
-    public List<ColumnDO> getColumns() {
+    public List<Column> getColumns() {
         return columns;
     }
 
-    public void setColumns(List<ColumnDO> columns) {
+    public void setColumns(List<Column> columns) {
         this.columns = columns;
     }
 
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
     public String getClassName() {
+        if (className == null) {
+            className = WordUtils.capitalizeFully(tableName, new char[]{'_'}).replace("_", "");
+        }
         return className;
     }
 

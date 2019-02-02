@@ -1,4 +1,4 @@
-package pg.laziji.generator.mybatis;
+package pg.laziji.generator.mybatis.model;
 
 
 import org.apache.commons.lang.WordUtils;
@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ColumnDO {
+public class Column {
 
     private static final Map<String, String> typeMap = new HashMap<>();
 

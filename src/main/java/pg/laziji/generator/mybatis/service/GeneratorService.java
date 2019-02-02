@@ -1,4 +1,4 @@
-package pg.laziji.generator.mybatis;
+package pg.laziji.generator.mybatis.service;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
@@ -6,6 +6,8 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import pg.laziji.generator.mybatis.model.Table;
+import pg.laziji.generator.mybatis.model.TableItem;
 
 import javax.annotation.Resource;
 import java.io.*;
@@ -32,15 +34,24 @@ public class GeneratorService {
 
 
     public void generateZip(String[] tableNames, String zipPath) {
+        TableItem[] tableItems = new TableItem[tableNames.length];
+        for (int i = 0; i < tableNames.length; i++) {
+            tableItems[i] = new TableItem(tableNames[i]);
+        }
+        generateZip(tableItems, zipPath);
+    }
+
+    public void generateZip(TableItem[] tableItems, String zipPath) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try (
                 ZipOutputStream zos = new ZipOutputStream(bos);
                 FileOutputStream fos = new FileOutputStream(zipPath)
         ) {
-            for (String tableName : tableNames) {
-                TableDO table = new TableDO();
-                table.setTableName(tableName);
-                table.setColumns(generatorMapper.listColumns(tableName));
+            for (TableItem tableItem : tableItems) {
+                Table table = new Table();
+                table.setTableName(tableItem.getTableName());
+                table.setClassName(tableItem.getClassName());
+                table.setColumns(generatorMapper.listColumns(tableItem.getTableName()));
                 generatorCode(table, zos);
             }
             fos.write(bos.toByteArray());
@@ -50,7 +61,7 @@ public class GeneratorService {
     }
 
 
-    private void generatorCode(TableDO table, ZipOutputStream zos) {
+    private void generatorCode(Table table, ZipOutputStream zos) {
 
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", table.getTableName());
@@ -58,7 +69,7 @@ public class GeneratorService {
         map.put("columns", table.getColumns());
         map.put("suffix", table.getSuffix());
         map.put("package", packagePath);
-        map.put("packageFilePath", packagePath.replace(".","/"));
+        map.put("packageFilePath", packagePath.replace(".", "/"));
 
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
@@ -66,7 +77,7 @@ public class GeneratorService {
         VelocityContext context = new VelocityContext(map);
 
         Map<String, String> templateMap = parseTemplateMapping(map);
-        for (Map.Entry<String,String> entry:templateMap.entrySet()) {
+        for (Map.Entry<String, String> entry : templateMap.entrySet()) {
             Template template = Velocity.getTemplate(entry.getKey(), "UTF-8");
             try (StringWriter writer = new StringWriter()) {
                 template.merge(context, writer);
