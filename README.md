@@ -1,11 +1,15 @@
-# mybatis-generator
+# Mybatis Generator
+![](https://img.shields.io/github/languages/top/github-laziji/mybatis-generator.svg?style=flat)
+![](https://img.shields.io/github/stars/gitHub-laziji/mybatis-generator.svg?style=social)
+---
 
 Java数据库`Mapper, Dao, Service`代码自动生成器
 
 
 代码模版位于`resources`下, 可根据需要自行修改
 
-> 第一个模版`mybatis`是根据 [commons-mybatis](https://github.com/GitHub-Laziji/commons-mybatis) 编写的, 若不适合可以自行修改模版或选择其他模版
+> 第一个模版`mybatis`是根据 [commons-mybatis](https://github.com/GitHub-Laziji/commons-mybatis) 编写的, 
+若不适合可以自行修改模版或选择其他模版
 
 
 # 配置文件
