@@ -25,7 +25,7 @@ Java数据库`Mapper, Dao, Service`代码自动生成器
 现在项目中有两套模版`template.path` 可以选`mybatis` 或 `mybatis-default`
 
 也可以自行扩展
-```
+```yml
 spring:
   datasource:
     url: jdbc:mysql://xxx.xxx.xxx.xxx:3306/xxxx?characterEncoding=utf-8
@@ -49,8 +49,12 @@ generator:
 - `@ActiveProfiles("example")`中填入刚才配置文件名的`name`
 - `tableNames`需要生成的表, 可以多个
 - `zipPath` 代码导出路径
-运行测试方法即可
-```
+
+调用`generatorService.generateZip`传入参数可以是表名数组`String[]`或者
+`TableItem[]`(`new TableItem("table1", "TableA"`)表名与需要生成的类名)
+
+运行测试方法
+```Java
 package pg.laziji.generator;
 
 import org.junit.Test;
@@ -72,10 +76,17 @@ public class ExampleTest {
     private GeneratorService generatorService;
 
     @Test
-    public void test() throws IOException {
-        String[] tableNames = new String[]{"example_table1", "example_table2"};
+    public void test(){
         String zipPath = "/home/code.zip";
-        generatorService.generateZip(tableNames,zipPath);
+
+//        String[] tableNames = new String[]{"table1","table2"};
+//        generatorService.generateZip(tableNames,zipPath);
+
+        TableItem[] tableItems = new TableItem[]{
+                new TableItem("table1", "TableA"),
+                new TableItem("table2", "TableB")
+        };
+        generatorService.generateZip(tableItems,zipPath);
     }
 }
 
