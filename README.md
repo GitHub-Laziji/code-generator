@@ -50,8 +50,7 @@ generator:
 - `tableNames`需要生成的表, 可以多个
 - `zipPath` 代码导出路径
 
-调用`generatorService.generateZip`传入参数可以是表名数组`String[]`或者
-`TableItem[]`(`new TableItem("table1", "TableA"`)表名与需要生成的类名)
+调用`generatorService.generateZip`传入参数可以是表名数组`String[]`或者`TableItem[]`
 
 运行测试方法
 ```Java
