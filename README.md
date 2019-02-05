@@ -26,7 +26,7 @@ Java数据库`Mapper, Dao, Service`代码自动生成器
 
 `generator.template.mapping`中可选的动态属性包含:
 - `{packageFilePath}` 包文件路径 例如: `com/xxx/xxx`
-- `{className}` 类名 由表名改为驼峰命名法得来
+- `{className}` 类名 由表名使用驼峰命名法得来(若使用`TableItem`指定了自定义类名, 则就是指定的类名)
 - `{suffix}` 类名后缀 DO或VO
 
 一般按以下配置即可, 也可以自行扩展
