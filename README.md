@@ -7,10 +7,12 @@
 Java数据库`Mapper, Dao, Service`代码自动生成器
 
 
-代码模版位于`resources`下, 可根据需要自行修改
+> 欢迎贡献各种模版
 
-> 第一个模版`mybatis`是根据 [commons-mybatis](https://github.com/GitHub-Laziji/commons-mybatis) 编写的, 
-若不适合可以自行修改模版或选择其他模版
+目前项目中包含两个模版在`resources`下, 如果模版不合适可以自己模仿其中的模版进行修改
+
+- `mybatis` 是根据 [commons-mybatis](https://github.com/GitHub-Laziji/commons-mybatis) 编写的, 依赖`commons-mybatis`
+- `mybatis-default` 这个生成的是简单的`mybatis`实体类、Dao接口以及XML, 不依赖其他包
 
 
 # 配置文件
