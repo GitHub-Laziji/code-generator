@@ -1,0 +1,11 @@
+package ${package}.database.dao;
+
+import ${package}.database.model.${className};
+
+import org.apache.ibatis.annotations.Mapper;
+import org.laziji.commons.mybatis.dao.${suffix}Dao;
+
+@Mapper
+public interface ${className}Dao extends ${suffix}Dao<${className}> {
+
+}
