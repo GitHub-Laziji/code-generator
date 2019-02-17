@@ -8,13 +8,12 @@ generator:
   package: com.g.example
   template:
 #    Dependent https://github.com/GitHub-Laziji/commons-mybatis
-#    path: mybatis
+#    path: mybatis2
 #    mapping: |
-#      Model.java.vm: main/java/{packageFilePath}/database/model/{className}{suffix}.java
+#      Model.java.vm: main/java/{packageFilePath}/database/model/{className}.java
 #      Query.java.vm: main/java/{packageFilePath}/database/query/{className}Query.java
-#      Dao.java.vm: main/java/{packageFilePath}/database/dao/{className}.java
+#      Dao.java.vm: main/java/{packageFilePath}/database/dao/{className}Dao.java
 #      Service.java.vm: main/java/{packageFilePath}/database/service/{className}Service.java
-#      Mapper.xml.vm: main/resources/mapper/{className}Mapper.xml
 
 
 #    default
@@ -22,5 +21,5 @@ generator:
     mapping: |
       Model.java.vm: main/java/{packageFilePath}/database/model/{className}.java
       Query.java.vm: main/java/{packageFilePath}/database/query/{className}Query.java
-      Dao.java.vm: main/java/{packageFilePath}/database/dao/{className}.java
+      Dao.java.vm: main/java/{packageFilePath}/database/dao/{className}Dao.java
       Mapper.xml.vm: main/resources/mapper/{className}Mapper.xml

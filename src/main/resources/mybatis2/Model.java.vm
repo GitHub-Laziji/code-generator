@@ -1,9 +1,11 @@
 package ${package}.database.model;
 
 import org.laziji.commons.mybatis.model.Base${suffix};
+import org.laziji.commons.mybatis.dao.annotations.Table;
 
 import java.util.Date;
 
+@Table(name="${tableName}")
 public class ${className} extends Base${suffix}{
 	
 #foreach ($column in $columns)
