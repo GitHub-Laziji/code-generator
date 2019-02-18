@@ -3,7 +3,6 @@ package ${package}.database.query;
 import ${package}.database.model.${className};
 
 import java.util.Date;
-import com.alibaba.fastjson.JSON;
 import org.laziji.commons.mybatis.query.BaseQuery;
 
 
@@ -32,9 +31,4 @@ public class ${className}Query extends BaseQuery<${className}> {
     }
 #end
 #end
-
-    @Override
-    public ${className} toBean() {
-        return JSON.parseObject(JSON.toJSONString(this),${className}.class);
-    }
 }
