@@ -1,21 +1,21 @@
-package ${package}.database.query;
+package ${packageName}.database.query;
 
-import ${package}.database.model.${className};
+import ${packageName}.database.model.${table.customClassName};
 
 import java.util.Date;
 import org.laziji.commons.mybatis.query.BaseQuery;
 
 
-public class ${className}Query extends BaseQuery<${className}> {
+public class ${table.customClassName}Query extends BaseQuery<${table.customClassName}> {
 
-#foreach ($column in $columns)
+#foreach ($column in $table.columns)
     private $column.attrType $column.attrLowerName;
 #if($column.attrType=='String')
     private $column.attrType ${column.attrLowerName}Like;
 #end
 #end
 
-#foreach ($column in $columns)
+#foreach ($column in $table.columns)
     public void set${column.attrName}($column.attrType $column.attrLowerName) {
         this.$column.attrLowerName = $column.attrLowerName;
     }

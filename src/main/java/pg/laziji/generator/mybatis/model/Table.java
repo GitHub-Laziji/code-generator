@@ -7,9 +7,9 @@ import java.util.List;
 public class Table {
 
     private String tableName;
+    private String tableType;
     private List<Column> columns;
-    private String className;
-    private String suffix;
+    private String customClassName;
 
     public String getTableName() {
         return tableName;
@@ -17,7 +17,14 @@ public class Table {
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
-        this.suffix = tableName.endsWith("_view") ? "VO" : "DO";
+    }
+
+    public String getTableType() {
+        return tableType;
+    }
+
+    public void setTableType(String tableType) {
+        this.tableType = tableType;
     }
 
     public List<Column> getColumns() {
@@ -28,18 +35,35 @@ public class Table {
         this.columns = columns;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public String getCustomClassName() {
+        if(customClassName!=null){
+            return customClassName;
+        }
+        return getClassName();
     }
 
-    public String getClassName() {
-        if (className == null) {
-            className = WordUtils.capitalizeFully(tableName, new char[]{'_'}).replace("_", "");
-        }
-        return className;
+    public void setCustomClassName(String customClassName) {
+        this.customClassName = customClassName;
     }
 
     public String getSuffix() {
-        return suffix;
+        if (tableType == null) {
+            return null;
+        }
+        switch (tableType) {
+            case "BASE TABLE":
+                return "DO";
+            case "VIEW":
+                return "VO";
+            default:
+                return null;
+        }
+    }
+
+    public String getClassName() {
+        if (tableName == null) {
+            return null;
+        }
+        return WordUtils.capitalizeFully(tableName, new char[]{'_'}).replace("_", "");
     }
 }

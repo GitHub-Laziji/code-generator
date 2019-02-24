@@ -1,5 +1,6 @@
 package pg.laziji.generator.mybatis.service;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pg.laziji.generator.mybatis.model.Table;
 import pg.laziji.generator.mybatis.model.TableItem;
+import pg.laziji.generator.mybatis.model.TemplateContext;
 
 import javax.annotation.Resource;
 import java.io.*;
@@ -24,7 +26,7 @@ public class GeneratorService {
     private GeneratorMapper generatorMapper;
 
     @Value("${generator.package:com.g.example}")
-    private String packagePath;
+    private String packageName;
 
     @Value("${generator.template.path:}")
     private String templatePath;
@@ -47,11 +49,10 @@ public class GeneratorService {
                 ZipOutputStream zos = new ZipOutputStream(bos);
                 FileOutputStream fos = new FileOutputStream(zipPath)
         ) {
-            for (TableItem tableItem : tableItems) {
-                Table table = new Table();
-                table.setTableName(tableItem.getTableName());
-                table.setClassName(tableItem.getClassName());
-                table.setColumns(generatorMapper.listColumns(tableItem.getTableName()));
+            for (TableItem item : tableItems) {
+                Table table = generatorMapper.queryTable(item.getTableName());
+                table.setColumns(generatorMapper.queryColumns(item.getTableName()));
+                table.setCustomClassName(item.getClassName());
                 generatorCode(table, zos);
             }
             fos.write(bos.toByteArray());
@@ -63,20 +64,18 @@ public class GeneratorService {
 
     private void generatorCode(Table table, ZipOutputStream zos) {
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("tableName", table.getTableName());
-        map.put("className", table.getClassName());
-        map.put("columns", table.getColumns());
-        map.put("suffix", table.getSuffix());
-        map.put("package", packagePath);
-        map.put("packageFilePath", packagePath.replace(".", "/"));
+        TemplateContext templateContext = new TemplateContext();
+        templateContext.setTable(table);
+        templateContext.setPackageName(packageName);
+
+        System.out.println(JSON.toJSONString(table));
 
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(prop);
-        VelocityContext context = new VelocityContext(map);
+        VelocityContext context = new VelocityContext(templateContext.toMap());
 
-        Map<String, String> templateMap = parseTemplateMapping(map);
+        Map<String, String> templateMap = parseTemplateMapping(templateContext);
         for (Map.Entry<String, String> entry : templateMap.entrySet()) {
             Template template = Velocity.getTemplate(entry.getKey(), "UTF-8");
             try (StringWriter writer = new StringWriter()) {
@@ -90,15 +89,13 @@ public class GeneratorService {
         }
     }
 
-    private Map<String, String> parseTemplateMapping(Map<String, Object> info) {
+    private Map<String, String> parseTemplateMapping(TemplateContext context) {
         String[] rows = templateMapping.split("\n");
         Map<String, String> templateMap = new HashMap<>();
         for (String row : rows) {
             String[] vs = row.split(":");
-            for (Map.Entry<String, Object> entry : info.entrySet()) {
-                if (entry.getValue() instanceof String) {
-                    vs[1] = vs[1].replace("{" + entry.getKey() + "}", entry.getValue().toString());
-                }
+            for (Map.Entry<String, String> entry : context.getDynamicPathFields().entrySet()) {
+                vs[1] = vs[1].replace("{" + entry.getKey() + "}", entry.getValue());
             }
             templateMap.put(templatePath + "/" + vs[0].trim(), vs[1]);
         }

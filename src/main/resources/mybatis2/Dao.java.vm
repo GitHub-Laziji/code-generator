@@ -1,11 +1,11 @@
-package ${package}.database.dao;
+package ${packageName}.database.dao;
 
-import ${package}.database.model.${className};
+import ${packageName}.database.model.${table.customClassName};
 
 import org.apache.ibatis.annotations.Mapper;
-import org.laziji.commons.mybatis.dao.${suffix}Dao;
+import org.laziji.commons.mybatis.dao.${table.suffix}Dao;
 
 @Mapper
-public interface ${className}Dao extends ${suffix}Dao<${className}> {
+public interface ${table.customClassName}Dao extends ${table.suffix}Dao<${table.customClassName}> {
 
 }

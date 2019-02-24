@@ -10,16 +10,16 @@ generator:
 #    Dependent https://github.com/GitHub-Laziji/commons-mybatis
 #    path: mybatis2
 #    mapping: |
-#      Model.java.vm: main/java/{packageFilePath}/database/model/{className}.java
-#      Query.java.vm: main/java/{packageFilePath}/database/query/{className}Query.java
-#      Dao.java.vm: main/java/{packageFilePath}/database/dao/{className}Dao.java
-#      Service.java.vm: main/java/{packageFilePath}/database/service/{className}Service.java
+#      Model.java.vm: main/java/{packagePath}/database/model/{customClassName}.java
+#      Query.java.vm: main/java/{packagePath}/database/query/{customClassName}Query.java
+#      Dao.java.vm: main/java/{packagePath}/database/dao/{customClassName}Dao.java
+#      Service.java.vm: main/java/{packagePath}/database/service/{customClassName}Service.java
 
 
 #    default
     path: mybatis-default
     mapping: |
-      Model.java.vm: main/java/{packageFilePath}/database/model/{className}.java
-      Query.java.vm: main/java/{packageFilePath}/database/query/{className}Query.java
-      Dao.java.vm: main/java/{packageFilePath}/database/dao/{className}Dao.java
-      Mapper.xml.vm: main/resources/mapper/{className}Mapper.xml
+      Model.java.vm: main/java/{packagePath}/database/model/{customClassName}.java
+      Query.java.vm: main/java/{packagePath}/database/query/{customClassName}Query.java
+      Dao.java.vm: main/java/{packagePath}/database/dao/{customClassName}Dao.java
+      Mapper.xml.vm: main/resources/mapper/{customClassName}Mapper.xml
