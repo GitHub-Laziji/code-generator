@@ -1,9 +1,9 @@
-package ${package}.database.query;
+package ${packageName}.database.query;
 
 import java.util.Date;
 import com.alibaba.fastjson.JSON;
 
-public class ${className}Query {
+public class ${table.customClassName}Query {
 
     private Integer limit = 1;
     private Integer page = 0;
@@ -11,14 +11,14 @@ public class ${className}Query {
     private String sort;
     private String order;
 
-#foreach ($column in $columns)
+#foreach ($column in $table.columns)
     private $column.attrType $column.attrLowerName;
 #if($column.attrType=='String')
     private $column.attrType ${column.attrLowerName}Like;
 #end
 #end
 
-#foreach ($column in $columns)
+#foreach ($column in $table.columns)
     public void set${column.attrName}($column.attrType $column.attrLowerName) {
         this.$column.attrLowerName = $column.attrLowerName;
     }

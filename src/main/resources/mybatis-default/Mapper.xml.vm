@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="${package}.database.dao.${className}Dao">
+<mapper namespace="${packageName}.database.dao.${table.customClassName}Dao">
 
     #set ( $sort = "" )
     #set ( $order = "" )
-    <resultMap id="resultBean" type="${package}.database.model.${className}"></resultMap>
-    <parameterMap id="parameterBean"  type="${package}.database.model.${className}"></parameterMap>
+    <resultMap id="resultBean" type="${packageName}.database.model.${table.customClassName}"></resultMap>
+    <parameterMap id="parameterBean"  type="${packageName}.database.model.${table.customClassName}"></parameterMap>
     <sql id="tableName">`${tableName}`</sql>
-    <sql id="columns"><trim suffixOverrides=",">#foreach($column in $columns)`$column.columnName`,#end</trim></sql>
+    <sql id="columns"><trim suffixOverrides=",">#foreach($column in $table.columns)`$column.columnName`,#end</trim></sql>
 
     <sql id="where">
         <where>
-#foreach($column in $columns)
+#foreach($column in $table.columns)
             <if test='$column.attrLowerName != null and ${column.attrLowerName.trim()}.toString() != "" '>and `$column.columnName` = #{$column.attrLowerName}</if>
 #end
-#foreach($column in $columns)
+#foreach($column in $table.columns)
 #if($column.attrType=='String')
             <if test='${column.attrLowerName}Like != null and ${column.attrLowerName}Like.trim() != ""'>and `$column.columnName` like
                 CONCAT('%', #{${column.attrLowerName}Like}, '%')
@@ -27,21 +27,21 @@
 
     <sql id="columnsNotNull">
         <trim suffixOverrides=",">
-#foreach($column in $columns)
+#foreach($column in $table.columns)
             <if test="$column.attrLowerName != null">`$column.columnName`,</if>
 #end
         </trim>
     </sql>
     <sql id="value">
         <trim suffixOverrides=",">
-#foreach($column in $columns)
+#foreach($column in $table.columns)
             <if test="$column.attrLowerName != null">#{$column.attrLowerName},</if>
 #end
         </trim>
     </sql>
     <sql id="set">
         <set>
-#foreach($column in $columns)
+#foreach($column in $table.columns)
 #if($column.columnName != "id")
             <if test="$column.attrLowerName != null">`$column.columnName` = #{$column.attrLowerName},</if>
 #end

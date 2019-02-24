@@ -1,17 +1,17 @@
-package ${package}.database.dao;
+package ${packageName}.database.dao;
 
-import ${package}.database.model.${className};
-import ${package}.database.query.${className}Query;
+import ${packageName}.database.model.${table.customClassName};
+import ${packageName}.database.query.${table.customClassName}Query;
 
 import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface ${className}Dao {
-    List<${className}> select(${className}Query query);
+public interface ${table.customClassName}Dao {
+    List<${table.customClassName}> select(${table.customClassName}Query query);
     Integer selectCount(${className}Query query);
-    ${className} selectById(Integer id);
-    Integer insert(${className} bean);
-    Integer update(${className} bean);
+    ${table.customClassName} selectById(Integer id);
+    Integer insert(${table.customClassName} bean);
+    Integer update(${table.customClassName} bean);
     Integer delete(Integer id);
 }

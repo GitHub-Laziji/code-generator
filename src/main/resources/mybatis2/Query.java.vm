@@ -8,25 +8,25 @@ import org.laziji.commons.mybatis.query.BaseQuery;
 
 public class ${table.customClassName}Query extends BaseQuery<${table.customClassName}> {
 
-#foreach ($column in $table.columns)
-    private $column.attrType $column.attrLowerName;
-#if($column.attrType=='String')
-    private $column.attrType ${column.attrLowerName}Like;
+#foreach (${column} in ${table.columns})
+    private ${column.attrType} ${column.attrLowerName};
+#if(${column.attrType}=='String')
+    private ${column.attrType} ${column.attrLowerName}Like;
 #end
 #end
 
-#foreach ($column in $table.columns)
-    public void set${column.attrName}($column.attrType $column.attrLowerName) {
-        this.$column.attrLowerName = $column.attrLowerName;
+#foreach (${column} in $table.columns)
+    public void set${column.attrName}(${column.attrType} ${column.attrLowerName}) {
+        this.${column.attrLowerName} = ${column.attrLowerName};
     }
-    public $column.attrType get${column.attrName}() {
-        return $column.attrLowerName;
+    public ${column.attrType} get${column.attrName}() {
+        return ${column.attrLowerName};
     }
-#if($column.attrType=='String')
-    public void set${column.attrName}Like($column.attrType ${column.attrLowerName}Like) {
+#if(${column.attrType}=='String')
+    public void set${column.attrName}Like(${column.attrType} ${column.attrLowerName}Like) {
         this.${column.attrLowerName}Like = ${column.attrLowerName}Like;
     }
-    public $column.attrType get${column.attrName}Like() {
+    public ${column.attrType} get${column.attrName}Like() {
         return ${column.attrLowerName}Like;
     }
 #end
