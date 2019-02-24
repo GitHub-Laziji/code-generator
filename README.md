@@ -11,7 +11,6 @@ Java数据库`Mapper, Dao, Service`代码自动生成器
 
 目前项目中包含两个模版在`resources`下, 如果模版不合适可以自己模仿其中的模版进行修改
 
-- `mybatis` 是根据 [commons-mybatis](https://github.com/GitHub-Laziji/commons-mybatis) 编写的, 依赖`commons-mybatis 1.x`
 - `mybatis2` 是根据 [commons-mybatis](https://github.com/GitHub-Laziji/commons-mybatis) 通用`Mapper`编写的, 依赖`commons-mybatis 2.0`
 - `mybatis-default` 这个生成的是简单的`mybatis`实体类、Dao接口以及XML, 不依赖其他包
 
@@ -26,9 +25,10 @@ Java数据库`Mapper, Dao, Service`代码自动生成器
 - `generator.template.path` 表示模版文件的路径目前可以选`mybatis` 或 `mybatis-default`
 
 `generator.template.mapping`中可选的动态属性包含:
-- `{packageFilePath}` 包文件路径 例如: `com/xxx/xxx`
-- `{className}` 类名 由表名使用驼峰命名法得来(若使用`TableItem`指定了自定义类名, 则就是指定的类名)
-- `{suffix}` 类名后缀 DO或VO
+- `{packagePath}` 包文件路径 例如: `com/xxx/xxx`
+- `{className}` 类名 由表名使用驼峰命名法得来
+- `{customClassName}` 自定义类名 (若未指定自定义类名, 则就是类名)
+- `{suffix}` 类名后缀 DO或VO (根据是否为视图)
 
 一般按以下配置即可, 也可以自行扩展
 ```yml
@@ -41,13 +41,12 @@ spring:
 generator:
   package: com.xxx.xxx
   template:
-    path: mybatis
+    path: mybatis2
     mapping: |
-      Model.java.vm: main/java/{packageFilePath}/database/model/{className}.java
-      Query.java.vm: main/java/{packageFilePath}/database/query/{className}Query.java
-      Dao.java.vm: main/java/{packageFilePath}/database/dao/{className}.java
-      Service.java.vm: main/java/{packageFilePath}/database/service/{className}Service.java
-      Mapper.xml.vm: main/resources/mapper/{className}Mapper.xml
+      Model.java.vm: main/java/{packagePath}/database/model/{customClassName}.java
+      Query.java.vm: main/java/{packagePath}/database/query/{customClassName}Query.java
+      Dao.java.vm: main/java/{packagePath}/database/dao/{customClassName}Dao.java
+      Service.java.vm: main/java/{packagePath}/database/service/{customClassName}Service.java
 ```
 
 # 使用

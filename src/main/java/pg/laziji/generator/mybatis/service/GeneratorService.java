@@ -1,6 +1,5 @@
 package pg.laziji.generator.mybatis.service;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -67,8 +66,6 @@ public class GeneratorService {
         TemplateContext templateContext = new TemplateContext();
         templateContext.setTable(table);
         templateContext.setPackageName(packageName);
-
-        System.out.println(JSON.toJSONString(table));
 
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
