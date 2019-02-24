@@ -6,7 +6,7 @@ import org.laziji.commons.mybatis.dao.annotations.Table;
 import java.util.Date;
 
 #if (${table.customClassName}!=${table.className})
-@Table(name="${table.customClassName}")
+@Table(name="${table.tableName}")
 #end
 public class ${table.customClassName} extends Base${table.suffix}{
 	
