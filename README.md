@@ -57,6 +57,8 @@ generator:
 
 调用`generatorService.generateZip`传入参数可以是表名数组`String[]`或者`TableItem[]`
 
+> 生成的压缩包如果解压出错可以选择`360解压`
+
 运行测试方法
 ```Java
 package pg.laziji.generator;
