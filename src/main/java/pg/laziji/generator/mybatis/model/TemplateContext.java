@@ -8,6 +8,7 @@ public class TemplateContext {
 
     private Table table;
     private String packageName;
+    private Map<String, String> options;
 
     public Table getTable() {
         return table;
@@ -32,13 +33,26 @@ public class TemplateContext {
         return packageName.replace(".", "/");
     }
 
+    public Map<String, String> getOptions() {
+        return options;
+    }
+
+    public void setOptions(Map<String, String> options) {
+        this.options = options;
+    }
+
     public Map<String, String> getDynamicPathFields() {
         Map<String, String> map = new HashMap<>();
         map.put("packagePath", getPackagePath());
-        if(table!=null){
+        if (table != null) {
             map.put("className", table.getClassName());
             map.put("customClassName", table.getCustomClassName());
             map.put("suffix", table.getSuffix());
+        }
+        if (options != null) {
+            for (Map.Entry<String, String> entry : options.entrySet()) {
+                map.put("options." + entry.getKey(), entry.getValue());
+            }
         }
         return map;
     }
@@ -46,6 +60,7 @@ public class TemplateContext {
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
         map.put("table", table);
+        map.put("options", options);
         map.put("packageName", packageName);
         return map;
     }

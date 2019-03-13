@@ -6,7 +6,6 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import pg.laziji.generator.mybatis.model.Table;
 import pg.laziji.generator.mybatis.model.TableItem;
 import pg.laziji.generator.mybatis.model.TemplateContext;
 
@@ -49,10 +48,14 @@ public class GeneratorService {
                 FileOutputStream fos = new FileOutputStream(zipPath)
         ) {
             for (TableItem item : tableItems) {
-                Table table = generatorMapper.queryTable(item.getTableName());
-                table.setColumns(generatorMapper.queryColumns(item.getTableName()));
-                table.setCustomClassName(item.getClassName());
-                generatorCode(table, zos);
+                TemplateContext context = new TemplateContext();
+                context.setTable(generatorMapper.queryTable(item.getTableName()));
+                context.getTable().setColumns(generatorMapper.queryColumns(item.getTableName()));
+                context.getTable().setCustomClassName(item.getClassName());
+                context.setPackageName(packageName);
+                context.setOptions(item.getOptions());
+
+                generatorCode(context, zos);
             }
             fos.write(bos.toByteArray());
         } catch (IOException e) {
@@ -61,22 +64,18 @@ public class GeneratorService {
     }
 
 
-    private void generatorCode(Table table, ZipOutputStream zos) {
-
-        TemplateContext templateContext = new TemplateContext();
-        templateContext.setTable(table);
-        templateContext.setPackageName(packageName);
+    private void generatorCode(TemplateContext context, ZipOutputStream zos) {
 
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(prop);
-        VelocityContext context = new VelocityContext(templateContext.toMap());
+        VelocityContext velocityContext = new VelocityContext(context.toMap());
 
-        Map<String, String> templateMap = parseTemplateMapping(templateContext);
+        Map<String, String> templateMap = parseTemplateMapping(context);
         for (Map.Entry<String, String> entry : templateMap.entrySet()) {
             Template template = Velocity.getTemplate(entry.getKey(), "UTF-8");
             try (StringWriter writer = new StringWriter()) {
-                template.merge(context, writer);
+                template.merge(velocityContext, writer);
                 zos.putNextEntry(new ZipEntry(entry.getValue()));
                 IOUtils.write(writer.toString(), zos, "UTF-8");
                 zos.closeEntry();
