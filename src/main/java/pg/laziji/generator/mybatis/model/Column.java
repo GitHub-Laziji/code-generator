@@ -35,6 +35,7 @@ public class Column {
 
     private String columnName;
     private String dataType;
+    private String columnComment;
 
     public String getColumnName() {
         return columnName;
@@ -50,6 +51,14 @@ public class Column {
 
     public void setDataType(String dataType) {
         this.dataType = dataType;
+    }
+
+    public String getColumnComment() {
+        return columnComment;
+    }
+
+    public void setColumnComment(String columnComment) {
+        this.columnComment = columnComment;
     }
 
     public String getUppercaseAttributeName() {

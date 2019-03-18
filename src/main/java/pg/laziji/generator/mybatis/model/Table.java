@@ -9,6 +9,7 @@ public class Table {
 
     private String tableName;
     private String tableType;
+    private String tableComment;
     private List<Column> columns;
     private String customClassName;
 
@@ -26,6 +27,14 @@ public class Table {
 
     public void setTableType(String tableType) {
         this.tableType = tableType;
+    }
+
+    public String getTableComment() {
+        return tableComment;
+    }
+
+    public void setTableComment(String tableComment) {
+        this.tableComment = tableComment;
     }
 
     public List<Column> getColumns() {
