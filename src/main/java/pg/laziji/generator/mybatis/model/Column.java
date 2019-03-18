@@ -35,9 +35,6 @@ public class Column {
 
     private String columnName;
     private String dataType;
-    private String attrName;
-    private String attrLowerName;
-    private String attrType;
 
     public String getColumnName() {
         return columnName;
@@ -45,8 +42,6 @@ public class Column {
 
     public void setColumnName(String columnName) {
         this.columnName = columnName;
-        this.attrName = WordUtils.capitalizeFully(columnName, new char[]{'_'}).replace("_", "");
-        this.attrLowerName = StringUtils.uncapitalize(this.attrName);
     }
 
     public String getDataType() {
@@ -55,18 +50,23 @@ public class Column {
 
     public void setDataType(String dataType) {
         this.dataType = dataType;
-        this.attrType = typeMap.getOrDefault(dataType, "Object");
     }
 
-    public String getAttrLowerName() {
-        return attrLowerName;
+    public String getUppercaseAttributeName() {
+        if(columnName==null){
+            return null;
+        }
+        return WordUtils.capitalizeFully(columnName, new char[]{'_'}).replace("_", "");
     }
 
-    public String getAttrName() {
-        return attrName;
+    public String getAttributeName() {
+        return StringUtils.uncapitalize(getUppercaseAttributeName());
     }
 
-    public String getAttrType() {
-        return attrType;
+    public String getAttributeType() {
+        if(dataType==null){
+            return null;
+        }
+        return typeMap.getOrDefault(dataType, "Object");
     }
 }

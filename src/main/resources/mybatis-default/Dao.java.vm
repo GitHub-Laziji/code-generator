@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface ${table.customClassName}Dao {
     List<${table.customClassName}> select(${table.customClassName}Query query);
-    Integer selectCount(${className}Query query);
+    Integer selectCount(${table.customClassName}Query query);
     ${table.customClassName} selectById(Integer id);
     Integer insert(${table.customClassName} bean);
     Integer update(${table.customClassName} bean);

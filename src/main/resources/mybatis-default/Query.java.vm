@@ -12,25 +12,25 @@ public class ${table.customClassName}Query {
     private String order;
 
 #foreach ($column in $table.columns)
-    private $column.attrType $column.attrLowerName;
-#if($column.attrType=='String')
-    private $column.attrType ${column.attrLowerName}Like;
+    private $column.attributeType $column.attributeName;
+#if($column.attributeType=='String')
+    private $column.attributeType ${column.attributeName}Like;
 #end
 #end
 
 #foreach ($column in $table.columns)
-    public void set${column.attrName}($column.attrType $column.attrLowerName) {
-        this.$column.attrLowerName = $column.attrLowerName;
+    public void set${column.uppercaseAttributeName}($column.attributeType $column.attributeName) {
+        this.$column.attributeName = $column.attributeName;
     }
-    public $column.attrType get${column.attrName}() {
-        return $column.attrLowerName;
+    public $column.attributeType get${column.uppercaseAttributeName}() {
+        return $column.attributeName;
     }
-#if($column.attrType=='String')
-    public void set${column.attrName}Like($column.attrType ${column.attrLowerName}Like) {
-        this.${column.attrLowerName}Like = ${column.attrLowerName}Like;
+#if($column.attributeType=='String')
+    public void set${column.uppercaseAttributeName}Like($column.attributeType ${column.attributeName}Like) {
+        this.${column.attributeName}Like = ${column.attributeName}Like;
     }
-    public $column.attrType get${column.attrName}Like() {
-        return ${column.attrLowerName}Like;
+    public $column.attributeType get${column.uppercaseAttributeName}Like() {
+        return ${column.attributeName}Like;
     }
 #end
 #end

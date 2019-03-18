@@ -1,6 +1,7 @@
 package pg.laziji.generator.mybatis.model;
 
 import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -65,5 +66,9 @@ public class Table {
             return null;
         }
         return WordUtils.capitalizeFully(tableName, new char[]{'_'}).replace("_", "");
+    }
+
+    public String getLowercaseClassName() {
+        return StringUtils.uncapitalize(getClassName());
     }
 }

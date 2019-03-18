@@ -6,15 +6,15 @@ import com.alibaba.fastjson.JSON;
 public class ${table.customClassName}{
 
 #foreach ($column in $table.columns)
-	private $column.attrType $column.attrLowerName;
+	private $column.attributeType $column.attributeName;
 #end
 
 #foreach ($column in $table.columns)
-	public void set${column.attrName}($column.attrType $column.attrLowerName) {
-		this.$column.attrLowerName = $column.attrLowerName;
+	public void set${column.uppercaseAttributeName}($column.attributeType $column.attributeName) {
+		this.$column.attributeName = $column.attributeName;
 	}
-	public $column.attrType get${column.attrName}() {
-		return $column.attrLowerName;
+	public $column.attributeType get${column.uppercaseAttributeName}() {
+		return $column.attributeName;
 	}
 #end
 

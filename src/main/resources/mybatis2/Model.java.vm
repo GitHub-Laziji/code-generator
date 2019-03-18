@@ -11,18 +11,18 @@ import java.util.Date;
 public class ${table.customClassName} extends Base${table.suffix}{
 	
 #foreach (${column} in ${table.columns})
-#if (${table.suffix}=="VO"||${column.attrLowerName}!="id"&&${column.attrLowerName}!="gmtCreate"&&${column.attrLowerName}!="gmtModified")
-	private ${column.attrType} ${column.attrLowerName};
+#if (${table.suffix}=="VO"||${column.attributeName}!="id"&&${column.attributeName}!="gmtCreate"&&${column.attributeName}!="gmtModified")
+	private ${column.attributeType} ${column.attributeName};
 #end
 #end
 
 #foreach (${column} in ${table.columns})
-#if (${table.suffix}=="VO"||${column.attrLowerName}!="id"&&${column.attrLowerName}!="gmtCreate"&&${column.attrLowerName}!="gmtModified")
-	public void set${column.attrName}(${column.attrType} ${column.attrLowerName}) {
-		this.${column.attrLowerName} = ${column.attrLowerName};
+#if (${table.suffix}=="VO"||${column.attributeName}!="id"&&${column.attributeName}!="gmtCreate"&&${column.attributeName}!="gmtModified")
+	public void set${column.uppercaseAttributeName}(${column.attributeType} ${column.attributeName}) {
+		this.${column.attributeName} = ${column.attributeName};
 	}
-	public ${column.attrType} get${column.attrName}() {
-		return ${column.attrLowerName};
+	public ${column.attributeType} get${column.uppercaseAttributeName}() {
+		return ${column.attributeName};
 	}
 #end
 #end

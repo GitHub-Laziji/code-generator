@@ -5,7 +5,7 @@ import java.util.Map;
 public class TableItem {
 
     private String tableName;
-    private String className;
+    private String customClassName;
     private Map<String, String> options;
 
     public TableItem(String tableName) {
@@ -17,13 +17,13 @@ public class TableItem {
         this.options = options;
     }
 
-    public TableItem(String tableName, String className) {
+    public TableItem(String tableName, String customClassName) {
         this.tableName = tableName;
-        this.className = className;
+        this.customClassName = customClassName;
     }
 
-    public TableItem(String tableName, String className, Map<String, String> options) {
-        this(tableName, className);
+    public TableItem(String tableName, String customClassName, Map<String, String> options) {
+        this(tableName, customClassName);
         this.options = options;
     }
 
@@ -35,12 +35,12 @@ public class TableItem {
         this.tableName = tableName;
     }
 
-    public String getClassName() {
-        return className;
+    public String getCustomClassName() {
+        return customClassName;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setCustomClassName(String customClassName) {
+        this.customClassName = customClassName;
     }
 
     public Map<String, String> getOptions() {

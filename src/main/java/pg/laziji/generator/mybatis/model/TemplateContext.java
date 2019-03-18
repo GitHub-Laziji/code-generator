@@ -46,6 +46,7 @@ public class TemplateContext {
         map.put("packagePath", getPackagePath());
         if (table != null) {
             map.put("className", table.getClassName());
+            map.put("lowercaseClassName",table.getLowercaseClassName());
             map.put("customClassName", table.getCustomClassName());
             map.put("suffix", table.getSuffix());
         }

@@ -51,7 +51,7 @@ public class GeneratorService {
                 TemplateContext context = new TemplateContext();
                 context.setTable(generatorMapper.queryTable(item.getTableName()));
                 context.getTable().setColumns(generatorMapper.queryColumns(item.getTableName()));
-                context.getTable().setCustomClassName(item.getClassName());
+                context.getTable().setCustomClassName(item.getCustomClassName());
                 context.setPackageName(packageName);
                 context.setOptions(item.getOptions());
 

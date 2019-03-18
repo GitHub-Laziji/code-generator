@@ -13,12 +13,12 @@
     <sql id="where">
         <where>
 #foreach($column in $table.columns)
-            <if test='$column.attrLowerName != null and ${column.attrLowerName.trim()}.toString() != "" '>and `$column.columnName` = #{$column.attrLowerName}</if>
+            <if test='$column.attributeName != null and ${column.attributeName.trim()}.toString() != "" '>and `$column.columnName` = #{$column.attributeName}</if>
 #end
 #foreach($column in $table.columns)
-#if($column.attrType=='String')
-            <if test='${column.attrLowerName}Like != null and ${column.attrLowerName}Like.trim() != ""'>and `$column.columnName` like
-                CONCAT('%', #{${column.attrLowerName}Like}, '%')
+#if($column.attributeType=='String')
+            <if test='${column.attributeName}Like != null and ${column.attributeName}Like.trim() != ""'>and `$column.columnName` like
+                CONCAT('%', #{${column.attributeName}Like}, '%')
             </if>
 #end
 #end
@@ -28,14 +28,14 @@
     <sql id="columnsNotNull">
         <trim suffixOverrides=",">
 #foreach($column in $table.columns)
-            <if test="$column.attrLowerName != null">`$column.columnName`,</if>
+            <if test="$column.attributeName != null">`$column.columnName`,</if>
 #end
         </trim>
     </sql>
     <sql id="value">
         <trim suffixOverrides=",">
 #foreach($column in $table.columns)
-            <if test="$column.attrLowerName != null">#{$column.attrLowerName},</if>
+            <if test="$column.attributeName != null">#{$column.attributeName},</if>
 #end
         </trim>
     </sql>
@@ -43,7 +43,7 @@
         <set>
 #foreach($column in $table.columns)
 #if($column.columnName != "id")
-            <if test="$column.attrLowerName != null">`$column.columnName` = #{$column.attrLowerName},</if>
+            <if test="$column.attributeName != null">`$column.columnName` = #{$column.attributeName},</if>
 #end
 #end
         </set>
