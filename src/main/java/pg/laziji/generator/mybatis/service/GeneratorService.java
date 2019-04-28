@@ -89,11 +89,16 @@ public class GeneratorService {
         String[] rows = templateMapping.split("\n");
         Map<String, String> templateMap = new HashMap<>();
         for (String row : rows) {
-            String[] vs = row.split(":");
-            for (Map.Entry<String, String> entry : context.getDynamicPathFields().entrySet()) {
-                vs[1] = vs[1].replace("{" + entry.getKey() + "}", entry.getValue());
+            int index = row.indexOf(":");
+            if (index == -1) {
+                continue;
             }
-            templateMap.put(templatePath + "/" + vs[0].trim(), vs[1]);
+            String type = row.substring(0, index).trim();
+            String path = row.substring(index + 1).trim();
+            for (Map.Entry<String, String> entry : context.getDynamicPathFields().entrySet()) {
+                path = path.replace("{" + entry.getKey() + "}", entry.getValue());
+            }
+            templateMap.put(templatePath + "/" + type, path);
         }
         return templateMap;
     }
