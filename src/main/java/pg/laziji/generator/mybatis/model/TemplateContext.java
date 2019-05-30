@@ -48,7 +48,6 @@ public class TemplateContext {
             map.put("className", table.getClassName());
             map.put("lowercaseClassName",table.getLowercaseClassName());
             map.put("customClassName", table.getCustomClassName());
-            map.put("suffix", table.getSuffix());
         }
         if (options != null) {
             for (Map.Entry<String, String> entry : options.entrySet()) {
