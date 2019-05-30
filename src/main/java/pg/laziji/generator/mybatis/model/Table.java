@@ -56,20 +56,6 @@ public class Table {
         this.customClassName = customClassName;
     }
 
-    public String getSuffix() {
-        if (tableType == null) {
-            return null;
-        }
-        switch (tableType) {
-            case "BASE TABLE":
-                return "DO";
-            case "VIEW":
-                return "VO";
-            default:
-                return null;
-        }
-    }
-
     public String getClassName() {
         if (tableName == null) {
             return null;

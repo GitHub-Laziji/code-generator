@@ -1,6 +1,10 @@
+#set ( $suffix = "DO" )
+#if(${table.tableType}=="VIEW")
+	#set ( $suffix = "VO" )
+#end
 package ${packageName}.database.model;
 
-import org.laziji.commons.mybatis.model.Base${table.suffix};
+import org.laziji.commons.mybatis.model.Base${suffix};
 import org.laziji.commons.mybatis.dao.annotations.Table;
 
 import java.util.Date;
@@ -8,16 +12,16 @@ import java.util.Date;
 #if (${table.customClassName}!=${table.className})
 @Table(name="${table.tableName}")
 #end
-public class ${table.customClassName} extends Base${table.suffix}{
+public class ${table.customClassName} extends Base${suffix}{
 	
 #foreach (${column} in ${table.columns})
-#if (${table.suffix}=="VO"||${column.attributeName}!="id"&&${column.attributeName}!="gmtCreate"&&${column.attributeName}!="gmtModified")
+#if (${suffix}=="VO"||${column.attributeName}!="id"&&${column.attributeName}!="gmtCreate"&&${column.attributeName}!="gmtModified")
 	private ${column.attributeType} ${column.attributeName};
 #end
 #end
 
 #foreach (${column} in ${table.columns})
-#if (${table.suffix}=="VO"||${column.attributeName}!="id"&&${column.attributeName}!="gmtCreate"&&${column.attributeName}!="gmtModified")
+#if (${suffix}=="VO"||${column.attributeName}!="id"&&${column.attributeName}!="gmtCreate"&&${column.attributeName}!="gmtModified")
 	public void set${column.uppercaseAttributeName}(${column.attributeType} ${column.attributeName}) {
 		this.${column.attributeName} = ${column.attributeName};
 	}
