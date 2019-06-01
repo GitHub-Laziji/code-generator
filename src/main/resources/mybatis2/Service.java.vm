@@ -8,12 +8,12 @@
 #end
 #set ( $package = ${conf.package} )
 #set ( $className = ${dp.className} )
-package ${className}.database.service;
+package ${package}.database.service;
 
 import org.springframework.stereotype.Service;
 import org.laziji.commons.mybatis.service.Base${suffix}Service;
 
-import ${className}.database.model.${className};
+import ${package}.database.model.${className};
 
 @Service
 public class ${className}Service extends Base${suffix}Service<${className}> {
