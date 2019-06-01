@@ -94,3 +94,39 @@ public class ExampleTest {
     }
 }
 ```
+
+# 各个变量域包含的字段
+
+### system
+只能在VM模板中使用, 可以通过`TemplateContext.setSystemVariable(key, value)`添加和覆盖, 
+相当于全局变量, 初始包含以下信息
+
+- `username` 系统用户名
+- `computerName` 计算机名
+- `osName` 操作系统名称
+- `osArch` 架构
+- `osVersion` 系统版本
+
+
+### config
+只能在VM模板中使用, 保护配置文件部分信息
+
+- `package` 包名
+- `datasourceType` 数据库类型
+
+
+### dynamicPath
+可以在VM模板和路径配置中使用, 只能存放`<String,String>`的键值对, 
+可以通过`TableItem.Builder.dynamicPathVariable(key, value)`添加和覆盖, 
+文件的动态路径变量
+
+- `packagePath` 包路径 例如`com/e/test`
+- `className` 类名 来自表信息转驼峰命名法, 可覆盖
+- `lowercaseClassName` 首字母小写的类名
+
+
+### template
+只能在VM模板中使用, 和`dynamicPath`的区别是值可以是`Object`类型, 
+可以通过`TableItem.Builder.templateVariable(key, value)`添加和覆盖
+
+- 默认无
