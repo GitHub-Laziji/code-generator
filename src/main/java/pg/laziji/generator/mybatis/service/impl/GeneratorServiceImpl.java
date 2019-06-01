@@ -12,7 +12,10 @@ import pg.laziji.generator.mybatis.service.GeneratorService;
 import pg.laziji.generator.mybatis.service.TableService;
 import pg.laziji.generator.mybatis.util.SpringContextUtils;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -51,7 +54,8 @@ public class GeneratorServiceImpl implements GeneratorService {
                 ZipOutputStream zos = new ZipOutputStream(bos);
                 FileOutputStream fos = new FileOutputStream(zipPath)
         ) {
-            for (int i = 0; i < tableItems.length; i++) {
+            final int len = tableItems.length;
+            for (int i = 0; i < len; i++) {
                 TableItem item = tableItems[i];
                 TemplateContext context = new TemplateContext();
                 context.setTable(tableService.getTable(item.getTableName()));
@@ -60,7 +64,7 @@ public class GeneratorServiceImpl implements GeneratorService {
                 context.setOptions(item.getOptions());
 
                 generatorCode(context, zos);
-                if (i == tableItems.length - 1) {
+                if (i == len - 1) {
                     zos.close();
                 }
             }

@@ -21,14 +21,14 @@ public class ExampleTest {
 
     @Test
     public void test(){
-        String zipPath = "E:\\code\\mybatis_generator\\src\\mybatis-generator\\code01.zip";
+        String zipPath = "/home/code.zip";
 
 //        String[] tableNames = new String[]{"table1","table2"};
 //        generatorService.generateZip(tableNames,zipPath);
 
         TableItem[] tableItems = new TableItem[]{
-                new TableItem("exam", "ExamVO"),
-                new TableItem("roles", "RolesVO")
+                new TableItem("table1", "TableA"),
+                new TableItem("table2", "TableB")
         };
         generatorService.generateZip(tableItems,zipPath);
     }
