@@ -51,7 +51,8 @@ public class GeneratorServiceImpl implements GeneratorService {
                 ZipOutputStream zos = new ZipOutputStream(bos);
                 FileOutputStream fos = new FileOutputStream(zipPath)
         ) {
-            for (TableItem item : tableItems) {
+            for (int i = 0; i < tableItems.length; i++) {
+                TableItem item = tableItems[i];
                 TemplateContext context = new TemplateContext();
                 context.setTable(tableService.getTable(item.getTableName()));
                 context.getTable().setCustomClassName(item.getCustomClassName());
@@ -59,8 +60,12 @@ public class GeneratorServiceImpl implements GeneratorService {
                 context.setOptions(item.getOptions());
 
                 generatorCode(context, zos);
+                if (i == tableItems.length - 1) {
+                    zos.close();
+                }
             }
             fos.write(bos.toByteArray());
+            bos.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

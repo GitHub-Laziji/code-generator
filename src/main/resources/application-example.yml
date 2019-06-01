@@ -3,9 +3,9 @@ generator:
   datasource:
 # mysql or oracle, default mysql
     type: mysql
-    url: jdbc:mysql://127.0.0.1:3306/example?characterEncoding=utf-8
+    url: jdbc:mysql://127.0.0.1:3306/stu_info?characterEncoding=utf-8
     username: root
-    password: root
+    password:
 
   package: com.g.example
   template:
