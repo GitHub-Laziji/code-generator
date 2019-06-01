@@ -13,6 +13,13 @@ package ${package}.database.model;
 import java.util.Date;
 import com.alibaba.fastjson.JSON;
 
+
+/**
+ * ${className}
+ *
+ * time: ${sys.utils.time("yyyy/MM/dd HH:mm:ss")}
+ * author: ${sys.username}
+ */
 public class ${className}{
 
 #foreach ($column in $table.columns)

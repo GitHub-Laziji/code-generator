@@ -2,6 +2,7 @@ package pg.laziji.generator.mybatis.model;
 
 import org.springframework.core.env.Environment;
 import pg.laziji.generator.mybatis.util.SpringContextUtils;
+import pg.laziji.generator.mybatis.util.TemplateUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,8 @@ public class TemplateContext {
 
     static {
         Properties properties = System.getProperties();
+        systemVariables.put("utils", TemplateUtils.class);
+
         systemVariables.put("username", System.getenv("USERNAME"));
         systemVariables.put("computerName", System.getenv("COMPUTERNAME"));
         systemVariables.put("osName", properties.getProperty("os.name"));
