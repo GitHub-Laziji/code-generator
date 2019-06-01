@@ -43,19 +43,16 @@ public class GeneratorServiceImpl implements GeneratorService {
     @Override
     public void generateZip(TableItem[] tableItems, String zipPath) {
         TableService tableService = SpringContextUtils.getBean(datasourceType, TableService.class);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        try (
-                ZipOutputStream zos = new ZipOutputStream(bos);
-                FileOutputStream fos = new FileOutputStream(zipPath)
-        ) {
-            for (TableItem item : tableItems) {
-                generatorCode(TemplateContext.newBuilder()
-                        .templateVariables(item.getTemplateVariables())
-                        .table(tableService.getTable(item.getTableName()))
-                        .dynamicPathVariables(item.getDynamicPathVariables())
-                        .build(), zos);
+        try (FileOutputStream fos = new FileOutputStream(zipPath)) {
+            try (ZipOutputStream zos = new ZipOutputStream(fos)) {
+                for (TableItem item : tableItems) {
+                    generatorCode(TemplateContext.newBuilder()
+                            .templateVariables(item.getTemplateVariables())
+                            .table(tableService.getTable(item.getTableName()))
+                            .dynamicPathVariables(item.getDynamicPathVariables())
+                            .build(), zos);
+                }
             }
-            fos.write(bos.toByteArray());
         } catch (IOException e) {
             e.printStackTrace();
         }
