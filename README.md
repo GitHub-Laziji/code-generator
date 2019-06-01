@@ -28,17 +28,16 @@ Java数据库`Mapper, Dao, Service`代码自动生成器
 - `{packagePath}` 包文件路径 例如: `com/xxx/xxx`
 - `{className}` 类名 由表名使用驼峰命名法得来
 - `{customClassName}` 自定义类名 (若未指定自定义类名, 则就是类名)
-- `{suffix}` 类名后缀 DO或VO (根据是否为视图)
 
 一般按以下配置即可, 也可以自行扩展
 ```yml
-spring:
+generator:
   datasource:
+    type: mysql
     url: jdbc:mysql://xxx.xxx.xxx.xxx:3306/xxxx?characterEncoding=utf-8
     username: xxxxxx
     password: xxxxxx
-
-generator:
+    
   package: com.xxx.xxx
   template:
     path: mybatis2

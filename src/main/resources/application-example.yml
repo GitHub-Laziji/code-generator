@@ -1,16 +1,12 @@
-spring:
-  datasource:
-    url: jdbc:mysql://127.0.0.1:3306/example?characterEncoding=utf-8
-    username: root
-    password: root
 
 generator:
   datasource:
-    # mysql or oracle, default mysql
+# mysql or oracle, default mysql
     type: mysql
     url: jdbc:mysql://127.0.0.1:3306/example?characterEncoding=utf-8
     username: root
     password: root
+
   package: com.g.example
   template:
 #    Dependent https://github.com/GitHub-Laziji/commons-mybatis
@@ -20,7 +16,6 @@ generator:
 #      Query.java.vm: main/java/{packagePath}/database/query/{customClassName}Query.java
 #      Dao.java.vm: main/java/{packagePath}/database/dao/{customClassName}Dao.java
 #      Service.java.vm: main/java/{packagePath}/database/service/{customClassName}Service.java
-
 
 #    default
     path: mybatis-default
