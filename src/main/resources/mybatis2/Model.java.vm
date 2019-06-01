@@ -2,15 +2,12 @@
 #set ( $sys = ${system} )
 #set ( $dp = ${dynamicPath} )
 #set ( $tpl = ${template} )
-
 #set ( $suffix = "DO" )
 #if(${table.tableType}=="VIEW")
 	#set ( $suffix = "VO" )
 #end
-
 #set ( $package = ${conf.package} )
 #set ( $className = ${dp.className} )
-
 package ${package}.database.model;
 
 import org.laziji.commons.mybatis.model.Base${suffix};

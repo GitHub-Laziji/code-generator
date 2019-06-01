@@ -1,12 +1,22 @@
+#set ( $conf = ${config} )
+#set ( $sys = ${system} )
+#set ( $dp = ${dynamicPath} )
+#set ( $tpl = ${template} )
+#set ( $suffix = "DO" )
+#if(${table.tableType}=="VIEW")
+    #set ( $suffix = "VO" )
+#end
+#set ( $package = ${conf.package} )
+#set ( $className = ${dp.className} )
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="${packageName}.database.dao.${table.customClassName}Dao">
+<mapper namespace="${package}.database.dao.${className}Dao">
 
     #set ( $sort = "" )
     #set ( $order = "" )
-    <resultMap id="resultBean" type="${packageName}.database.model.${table.customClassName}"></resultMap>
-    <parameterMap id="parameterBean"  type="${packageName}.database.model.${table.customClassName}"></parameterMap>
+    <resultMap id="resultBean" type="${package}.database.model.${className}"></resultMap>
+    <parameterMap id="parameterBean"  type="${package}.database.model.${className}"></parameterMap>
     <sql id="tableName">`${tableName}`</sql>
     <sql id="columns"><trim suffixOverrides=",">#foreach($column in $table.columns)`$column.columnName`,#end</trim></sql>
 

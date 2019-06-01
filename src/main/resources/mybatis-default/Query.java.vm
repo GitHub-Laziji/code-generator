@@ -1,9 +1,19 @@
-package ${packageName}.database.query;
+#set ( $conf = ${config} )
+#set ( $sys = ${system} )
+#set ( $dp = ${dynamicPath} )
+#set ( $tpl = ${template} )
+#set ( $suffix = "DO" )
+#if(${table.tableType}=="VIEW")
+    #set ( $suffix = "VO" )
+#end
+#set ( $package = ${conf.package} )
+#set ( $className = ${dp.className} )
+package ${package}.database.query;
 
 import java.util.Date;
 import com.alibaba.fastjson.JSON;
 
-public class ${table.customClassName}Query {
+public class ${className}Query {
 
     private Integer limit = 1;
     private Integer page = 0;
