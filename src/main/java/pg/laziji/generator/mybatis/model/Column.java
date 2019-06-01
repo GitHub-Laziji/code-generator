@@ -33,9 +33,46 @@ public class Column {
         typeMap.put("timestamp", "Date");
     }
 
+    private String tableName;
     private String columnName;
     private String dataType;
     private String columnComment;
+    private Integer columnSize;
+    private boolean nullAble;
+    private boolean autoIncrement;
+
+
+    public boolean isAutoIncrement() {
+        return autoIncrement;
+    }
+
+    public void setAutoIncrement(boolean autoIncrement) {
+        this.autoIncrement = autoIncrement;
+    }
+
+    public boolean isNullAble() {
+        return nullAble;
+    }
+
+    public void setNullAble(boolean nullAble) {
+        this.nullAble = nullAble;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    public Integer getColumnSize() {
+        return columnSize;
+    }
+
+    public void setColumnSize(Integer columnSize) {
+        this.columnSize = columnSize;
+    }
 
     public String getColumnName() {
         return columnName;
@@ -76,6 +113,7 @@ public class Column {
         if(dataType==null){
             return null;
         }
-        return typeMap.getOrDefault(dataType, "Object");
+        String type = dataType.toLowerCase().replace("unsigned","").trim();
+        return typeMap.getOrDefault(type, "Object");
     }
 }

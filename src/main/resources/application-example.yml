@@ -5,6 +5,12 @@ spring:
     password: root
 
 generator:
+  datasource:
+    # mysql or oracle, default mysql
+    type: mysql
+    url: jdbc:mysql://127.0.0.1:3306/example?characterEncoding=utf-8
+    username: root
+    password: root
   package: com.g.example
   template:
 #    Dependent https://github.com/GitHub-Laziji/commons-mybatis

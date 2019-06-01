@@ -7,6 +7,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import pg.laziji.generator.mybatis.model.TableItem;
 import pg.laziji.generator.mybatis.service.GeneratorService;
+import pg.laziji.generator.mybatis.service.impl.GeneratorServiceImpl;
 
 import javax.annotation.Resource;
 
