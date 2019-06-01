@@ -1,7 +1,5 @@
 package pg.laziji.generator.mybatis.model;
 
-
-import com.alibaba.fastjson.JSON;
 import org.springframework.core.env.Environment;
 import pg.laziji.generator.mybatis.util.SpringContextUtils;
 
@@ -25,7 +23,6 @@ public class TemplateContext {
         systemVariables.put("osName", properties.getProperty("os.name"));
         systemVariables.put("osArch", properties.getProperty("os.arch"));
         systemVariables.put("osVersion", properties.getProperty("os.version"));
-        System.out.println(JSON.toJSONString(systemVariables));
     }
 
     public static Builder newBuilder() {

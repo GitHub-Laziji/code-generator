@@ -23,7 +23,7 @@ public abstract class BaseTableService implements TableService {
     protected abstract String getDriverClassName();
 
     @Override
-    public Table getTable(String tableName) {
+    public Table getTable(String tableName) throws Exception {
         try (Connection connection = getConnection()) {
             Table table = getMetaDataTable(connection, tableName);
             if (table == null) {
@@ -32,8 +32,6 @@ public abstract class BaseTableService implements TableService {
             List<Column> columns = listMetaDataColumn(connection, tableName);
             table.setColumns(columns);
             return table;
-        } catch (Exception e) {
-            return null;
         }
     }
 

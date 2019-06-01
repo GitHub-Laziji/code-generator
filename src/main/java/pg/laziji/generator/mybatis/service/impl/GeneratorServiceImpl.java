@@ -53,14 +53,13 @@ public class GeneratorServiceImpl implements GeneratorService {
                             .build(), zos);
                 }
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
     private void generatorCode(TemplateContext context, ZipOutputStream zos) {
-
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(prop);
