@@ -1,12 +1,25 @@
-package ${packageName}.database.query;
+#set ( $conf = ${config} )
+#set ( $sys = ${system} )
+#set ( $dp = ${dynamicPath} )
+#set ( $tpl = ${template} )
 
-import ${packageName}.database.model.${table.customClassName};
+#set ( $suffix = "DO" )
+#if(${table.tableType}=="VIEW")
+    #set ( $suffix = "VO" )
+#end
+
+#set ( $package = ${conf.package} )
+#set ( $className = ${dp.className} )
+
+package ${package}.database.query;
+
+import ${package}.database.model.${className};
 
 import java.util.Date;
 import org.laziji.commons.mybatis.query.BaseQuery;
 
 
-public class ${table.customClassName}Query extends BaseQuery<${table.customClassName}> {
+public class ${className}Query extends BaseQuery<${className}> {
 
 #foreach (${column} in ${table.columns})
     private ${column.attributeType} ${column.attributeName};

@@ -26,8 +26,7 @@ Java数据库`Mapper, Dao, Service`代码自动生成器
 
 `generator.template.mapping`中可选的动态属性包含:
 - `{packagePath}` 包文件路径 例如: `com/xxx/xxx`
-- `{className}` 类名 由表名使用驼峰命名法得来
-- `{customClassName}` 自定义类名 (若未指定自定义类名, 则就是类名)
+- `{className}` 类名 由表名使用驼峰命名法得来 可覆盖
 
 一般按以下配置即可, 也可以自行扩展
 ```yml
@@ -42,10 +41,10 @@ generator:
   template:
     path: mybatis2
     mapping: |
-      Model.java.vm: main/java/{packagePath}/database/model/{customClassName}.java
-      Query.java.vm: main/java/{packagePath}/database/query/{customClassName}Query.java
-      Dao.java.vm: main/java/{packagePath}/database/dao/{customClassName}Dao.java
-      Service.java.vm: main/java/{packagePath}/database/service/{customClassName}Service.java
+      Model.java.vm: main/java/{packagePath}/database/model/{className}.java
+      Query.java.vm: main/java/{packagePath}/database/query/{className}Query.java
+      Dao.java.vm: main/java/{packagePath}/database/dao/{className}Dao.java
+      Service.java.vm: main/java/{packagePath}/database/service/{className}Service.java
 ```
 
 # 使用
@@ -88,8 +87,8 @@ public class ExampleTest {
 //        generatorService.generateZip(tableNames,zipPath);
 
         TableItem[] tableItems = new TableItem[]{
-                new TableItem("table1", "TableA"),
-                new TableItem("table2", "TableB")
+                new TableItem("table1"),
+                new TableItem("table2")
         };
         generatorService.generateZip(tableItems,zipPath);
     }

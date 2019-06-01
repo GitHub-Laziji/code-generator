@@ -22,9 +22,6 @@ import java.util.zip.ZipOutputStream;
 @Service
 public class GeneratorServiceImpl implements GeneratorService {
 
-    @Value("${generator.package:com.g.example}")
-    private String packageName;
-
     @Value("${generator.template.path:}")
     private String templatePath;
 
@@ -52,13 +49,11 @@ public class GeneratorServiceImpl implements GeneratorService {
                 FileOutputStream fos = new FileOutputStream(zipPath)
         ) {
             for (TableItem item : tableItems) {
-                TemplateContext context = new TemplateContext();
-                context.setTable(tableService.getTable(item.getTableName()));
-                context.getTable().setCustomClassName(item.getCustomClassName());
-                context.setPackageName(packageName);
-                context.setOptions(item.getOptions());
-
-                generatorCode(context, zos);
+                generatorCode(TemplateContext.newBuilder()
+                        .templateVariables(item.getTemplateVariables())
+                        .table(tableService.getTable(item.getTableName()))
+                        .dynamicPathVariables(item.getDynamicPathVariables())
+                        .build(), zos);
             }
             fos.write(bos.toByteArray());
         } catch (IOException e) {
@@ -98,7 +93,8 @@ public class GeneratorServiceImpl implements GeneratorService {
             }
             String type = row.substring(0, index).trim();
             String path = row.substring(index + 1).trim();
-            for (Map.Entry<String, String> entry : context.getDynamicPathFields().entrySet()) {
+
+            for (Map.Entry<String, String> entry : context.getDynamicPathVariables().entrySet()) {
                 path = path.replace("{" + entry.getKey() + "}", entry.getValue());
             }
             templateMap.put(templatePath + "/" + type, path);

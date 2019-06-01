@@ -1,15 +1,24 @@
+#set ( $conf = ${config} )
+#set ( $sys = ${system} )
+#set ( $dp = ${dynamicPath} )
+#set ( $tpl = ${template} )
+
 #set ( $suffix = "DO" )
 #if(${table.tableType}=="VIEW")
     #set ( $suffix = "VO" )
 #end
-package ${packageName}.database.dao;
 
-import ${packageName}.database.model.${table.customClassName};
+#set ( $package = ${conf.package} )
+#set ( $className = ${dp.className} )
+
+package ${package}.database.dao;
+
+import ${package}.database.model.${className};
 
 import org.apache.ibatis.annotations.Mapper;
 import org.laziji.commons.mybatis.dao.${suffix}Dao;
 
 @Mapper
-public interface ${table.customClassName}Dao extends ${suffix}Dao<${table.customClassName}> {
+public interface ${className}Dao extends ${suffix}Dao<${className}> {
 
 }

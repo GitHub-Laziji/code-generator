@@ -1,15 +1,24 @@
+#set ( $conf = ${config} )
+#set ( $sys = ${system} )
+#set ( $dp = ${dynamicPath} )
+#set ( $tpl = ${template} )
+
 #set ( $suffix = "DO" )
 #if(${table.tableType}=="VIEW")
     #set ( $suffix = "VO" )
 #end
-package ${packageName}.database.service;
+
+#set ( $package = ${conf.package} )
+#set ( $className = ${dp.className} )
+
+package ${className}.database.service;
 
 import org.springframework.stereotype.Service;
 import org.laziji.commons.mybatis.service.Base${suffix}Service;
 
-import ${packageName}.database.model.${table.customClassName};
+import ${className}.database.model.${className};
 
 @Service
-public class ${table.customClassName}Service extends Base${suffix}Service<${table.customClassName}> {
+public class ${className}Service extends Base${suffix}Service<${className}> {
 
 }

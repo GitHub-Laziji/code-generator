@@ -27,8 +27,11 @@ public class ExampleTest {
 //        generatorService.generateZip(tableNames,zipPath);
 
         TableItem[] tableItems = new TableItem[]{
-                new TableItem("table1", "TableA"),
-                new TableItem("table2", "TableB")
+                TableItem.newBuilder()
+                        .tableName("table1")
+                        .dynamicPathVariable("className", "TableA")
+                        .build(),
+                new TableItem("table2")
         };
         generatorService.generateZip(tableItems,zipPath);
     }

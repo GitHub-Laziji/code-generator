@@ -1,30 +1,24 @@
 package pg.laziji.generator.mybatis.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class TableItem {
 
     private String tableName;
-    private String customClassName;
-    private Map<String, String> options;
+    private Map<String, String> dynamicPathVariables = new HashMap<>();
+    private Map<String, Object> templateVariables = new HashMap<>();
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    public TableItem() {
+
+    }
 
     public TableItem(String tableName) {
         this.tableName = tableName;
-    }
-
-    public TableItem(String tableName, Map<String, String> options) {
-        this(tableName);
-        this.options = options;
-    }
-
-    public TableItem(String tableName, String customClassName) {
-        this.tableName = tableName;
-        this.customClassName = customClassName;
-    }
-
-    public TableItem(String tableName, String customClassName, Map<String, String> options) {
-        this(tableName, customClassName);
-        this.options = options;
     }
 
     public String getTableName() {
@@ -35,19 +29,43 @@ public class TableItem {
         this.tableName = tableName;
     }
 
-    public String getCustomClassName() {
-        return customClassName;
+    public Map<String, String> getDynamicPathVariables() {
+        return dynamicPathVariables;
     }
 
-    public void setCustomClassName(String customClassName) {
-        this.customClassName = customClassName;
+    public void setDynamicPathVariables(Map<String, String> dynamicPathVariables) {
+        this.dynamicPathVariables = dynamicPathVariables;
     }
 
-    public Map<String, String> getOptions() {
-        return options;
+    public Map<String, Object> getTemplateVariables() {
+        return templateVariables;
     }
 
-    public void setOptions(Map<String, String> options) {
-        this.options = options;
+    public void setTemplateVariables(Map<String, Object> templateVariables) {
+        this.templateVariables = templateVariables;
+    }
+
+    public static class Builder {
+
+        private TableItem item = new TableItem();
+
+        public Builder tableName(String tableName) {
+            item.setTableName(tableName);
+            return this;
+        }
+
+        public Builder dynamicPathVariable(String key, String value) {
+            item.getDynamicPathVariables().put(key, value);
+            return this;
+        }
+
+        public Builder templateVariable(String key, Object value) {
+            item.getTemplateVariables().put(key, value);
+            return this;
+        }
+
+        public TableItem build() {
+            return item;
+        }
     }
 }

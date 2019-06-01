@@ -1,19 +1,28 @@
+#set ( $conf = ${config} )
+#set ( $sys = ${system} )
+#set ( $dp = ${dynamicPath} )
+#set ( $tpl = ${template} )
+
 #set ( $suffix = "DO" )
 #if(${table.tableType}=="VIEW")
 	#set ( $suffix = "VO" )
 #end
-package ${packageName}.database.model;
+
+#set ( $package = ${conf.package} )
+#set ( $className = ${dp.className} )
+
+package ${package}.database.model;
 
 import org.laziji.commons.mybatis.model.Base${suffix};
 import org.laziji.commons.mybatis.dao.annotations.Table;
 
 import java.util.Date;
 
-#if (${table.customClassName}!=${table.className})
+#if (${className}!=${table.className})
 @Table(name="${table.tableName}")
 #end
-public class ${table.customClassName} extends Base${suffix}{
-	
+public class ${className} extends Base${suffix}{
+
 #foreach (${column} in ${table.columns})
 #if (${suffix}=="VO"||${column.attributeName}!="id"&&${column.attributeName}!="gmtCreate"&&${column.attributeName}!="gmtModified")
 	private ${column.attributeType} ${column.attributeName};
