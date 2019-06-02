@@ -1,6 +1,6 @@
 # Code Generator
-![](https://img.shields.io/github/languages/top/github-laziji/mybatis-generator.svg?style=flat)
-![](https://img.shields.io/github/stars/gitHub-laziji/mybatis-generator.svg?style=social)
+![](https://img.shields.io/github/languages/top/github-laziji/code-generator.svg?style=flat)
+![](https://img.shields.io/github/stars/gitHub-laziji/code-generator.svg?style=social)
 
 
 
