@@ -19,7 +19,7 @@ Java数据库`Mapper, Dao, Service`代码自动生成器
 在`resources`下创建`application-${name}.yml`文件, `${name}`随意, 例如: `application-example.yml`, 可创建多个
 
 配置文件属性:
-- `spring.datasource` 填入自己的项目数据库相关配置
+- `generator.datasource` 填入自己的项目数据库相关配置
 - `generator.package` 项目包名
 - `generator.template.mapping` 用于自定义生成文件的包格式以及文件名
 - `generator.template.path` 表示模版文件的路径目前可以选`mybatis` 或 `mybatis-default`
@@ -27,6 +27,8 @@ Java数据库`Mapper, Dao, Service`代码自动生成器
 `generator.template.mapping`中可选的动态属性包含:
 - `{packagePath}` 包文件路径 例如: `com/xxx/xxx`
 - `{className}` 类名 由表名使用驼峰命名法得来 可覆盖
+- `{lowercaseClassName}` 首字母小写的类名
+- 其他自定义的属性
 
 一般按以下配置即可, 也可以自行扩展
 ```yml
