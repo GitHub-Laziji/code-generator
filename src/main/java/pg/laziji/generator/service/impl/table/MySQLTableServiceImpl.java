@@ -1,7 +1,7 @@
-package pg.laziji.generator.mybatis.service.impl.table;
+package pg.laziji.generator.service.impl.table;
 
 import org.springframework.stereotype.Service;
-import pg.laziji.generator.mybatis.service.BaseTableService;
+import pg.laziji.generator.service.BaseTableService;
 
 @Service("mysql")
 public class MySQLTableServiceImpl extends BaseTableService {

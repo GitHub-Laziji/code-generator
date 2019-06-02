@@ -1,4 +1,4 @@
-package pg.laziji.generator.mybatis.service.impl;
+package pg.laziji.generator.service.impl;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
@@ -6,11 +6,11 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import pg.laziji.generator.mybatis.model.TableItem;
-import pg.laziji.generator.mybatis.model.TemplateContext;
-import pg.laziji.generator.mybatis.service.GeneratorService;
-import pg.laziji.generator.mybatis.service.TableService;
-import pg.laziji.generator.mybatis.util.SpringContextUtils;
+import pg.laziji.generator.model.TableItem;
+import pg.laziji.generator.model.TemplateContext;
+import pg.laziji.generator.service.GeneratorService;
+import pg.laziji.generator.service.TableService;
+import pg.laziji.generator.util.SpringContextUtils;
 
 import java.io.*;
 import java.util.HashMap;

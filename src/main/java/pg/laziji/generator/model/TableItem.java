@@ -1,4 +1,4 @@
-package pg.laziji.generator.mybatis.model;
+package pg.laziji.generator.model;
 
 import java.util.HashMap;
 import java.util.Map;

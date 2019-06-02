@@ -1,6 +1,6 @@
-package pg.laziji.generator.mybatis.service;
+package pg.laziji.generator.service;
 
-import pg.laziji.generator.mybatis.model.TableItem;
+import pg.laziji.generator.model.TableItem;
 
 public interface GeneratorService {
 

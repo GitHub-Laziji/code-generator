@@ -1,4 +1,4 @@
-package pg.laziji.generator.mybatis.util;
+package pg.laziji.generator.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

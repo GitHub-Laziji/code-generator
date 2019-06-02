@@ -1,8 +1,8 @@
-package pg.laziji.generator.mybatis.service;
+package pg.laziji.generator.service;
 
 import org.springframework.beans.factory.annotation.Value;
-import pg.laziji.generator.mybatis.model.Column;
-import pg.laziji.generator.mybatis.model.Table;
+import pg.laziji.generator.model.Column;
+import pg.laziji.generator.model.Table;
 
 import java.sql.*;
 import java.util.ArrayList;

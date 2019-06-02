@@ -1,9 +1,9 @@
-package pg.laziji.generator.mybatis.model;
+package pg.laziji.generator.model;
 
 import org.springframework.core.env.Environment;
-import pg.laziji.generator.mybatis.util.ConfigUtils;
-import pg.laziji.generator.mybatis.util.SpringContextUtils;
-import pg.laziji.generator.mybatis.util.TemplateUtils;
+import pg.laziji.generator.util.ConfigUtils;
+import pg.laziji.generator.util.SpringContextUtils;
+import pg.laziji.generator.util.TemplateUtils;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package pg.laziji.generator.mybatis.model;
+package pg.laziji.generator.model;
 
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringUtils;
