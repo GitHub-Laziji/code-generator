@@ -1,11 +1,10 @@
-# Mybatis Generator
+# Code Generator
 ![](https://img.shields.io/github/languages/top/github-laziji/mybatis-generator.svg?style=flat)
 ![](https://img.shields.io/github/stars/gitHub-laziji/mybatis-generator.svg?style=social)
 
 
 
-Java数据库`Mapper, Dao, Service`代码自动生成器
-
+自定义代码自动生成器, 目前包含Java数据库`Mapper, Dao, Service`层模板
 
 > 欢迎贡献各种模版
 
