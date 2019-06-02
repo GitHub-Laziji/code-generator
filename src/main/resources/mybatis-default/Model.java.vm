@@ -1,25 +1,13 @@
-#set ( $conf = ${config} )
 #set ( $sys = ${system} )
 #set ( $dp = ${dynamicPath} )
 #set ( $tpl = ${template} )
-#set ( $suffix = "DO" )
-#if(${table.tableType}=="VIEW")
-	#set ( $suffix = "VO" )
-#end
-#set ( $package = ${conf.package} )
+#set ( $package = ${sys.config.get("generator.package")} )
 #set ( $className = ${dp.className} )
 package ${package}.database.model;
 
 import java.util.Date;
 import com.alibaba.fastjson.JSON;
 
-
-/**
- * ${className}
- *
- * time: ${sys.utils.time("yyyy/MM/dd HH:mm:ss")}
- * author: ${sys.username}
- */
 public class ${className}{
 
 #foreach ($column in $table.columns)

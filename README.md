@@ -99,21 +99,17 @@ public class ExampleTest {
 
 ### system
 只能在VM模板中使用, 可以通过`TemplateContext.setSystemVariable(key, value)`添加和覆盖, 
-相当于全局变量, 初始包含以下信息
+相当于全局变量, 初始包含以下信息, value的值可以是`Class`, 例如放入`CommonUtils.class` 在模板中就可以调用该类中的静态方法
+参考下面的`config`和`utils`
+
+- `config` 可以在模板中通过这个获取所有配置文件信息`system.config.get("xxx")`
+- `utils` 工具类, 里面包含格式化当前时间的函数, 可以扩展`system.utils.time("yyyy/MM/dd HH:mm:ss")`
 
 - `username` 系统用户名
 - `computerName` 计算机名
 - `osName` 操作系统名称
 - `osArch` 架构
 - `osVersion` 系统版本
-
-
-### config
-只能在VM模板中使用, 保护配置文件部分信息
-
-- `package` 包名
-- `datasourceType` 数据库类型
-
 
 ### dynamicPath
 可以在VM模板和路径配置中使用, 只能存放`<String,String>`的键值对, 
@@ -127,6 +123,8 @@ public class ExampleTest {
 
 ### template
 只能在VM模板中使用, 和`dynamicPath`的区别是值可以是`Object`类型, 
-可以通过`TableItem.Builder.templateVariable(key, value)`添加和覆盖
+可以通过`TableItem.Builder.templateVariable(key, value)`添加和覆盖,
+value的值可以是`Class`, 例如放入`CommonUtils.class` 在模板中就可以调用该类中的静态方法
+参考系统变量的`config`和`utils`
 
 - 默认无

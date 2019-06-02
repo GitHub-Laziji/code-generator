@@ -1,6 +1,7 @@
 package pg.laziji.generator.mybatis.model;
 
 import org.springframework.core.env.Environment;
+import pg.laziji.generator.mybatis.util.ConfigUtils;
 import pg.laziji.generator.mybatis.util.SpringContextUtils;
 import pg.laziji.generator.mybatis.util.TemplateUtils;
 
@@ -12,13 +13,13 @@ public class TemplateContext {
 
     private static final Map<String, Object> systemVariables = new HashMap<>();
 
-    private final Map<String, Object> configVariables = new HashMap<>();
     private final Map<String, String> dynamicPathVariables = new HashMap<>();
     private Map<String, Object> templateVariables;
     private Table table;
 
     static {
         Properties properties = System.getProperties();
+        systemVariables.put("config", ConfigUtils.class);
         systemVariables.put("utils", TemplateUtils.class);
 
         systemVariables.put("username", System.getenv("USERNAME"));
@@ -40,7 +41,6 @@ public class TemplateContext {
         Map<String, Object> map = new HashMap<>();
         map.put("system", systemVariables);
 
-        map.put("config", configVariables);
         map.put("dynamicPath", dynamicPathVariables);
         map.put("template", templateVariables);
         map.put("table", table);
@@ -53,10 +53,6 @@ public class TemplateContext {
 
     public void setTable(Table table) {
         this.table = table;
-    }
-
-    public Map<String, Object> getConfigVariables() {
-        return configVariables;
     }
 
     public Map<String, Object> getSystemVariables() {
@@ -84,9 +80,7 @@ public class TemplateContext {
 
         private Builder() {
             String packageName = environment.getProperty("generator.package", "pkg");
-            context.getConfigVariables().put("package", packageName);
             context.getDynamicPathVariables().put("packagePath", packageName.replace(".", "/"));
-            context.getConfigVariables().put("datasourceType", environment.getProperty("generator.datasource.type", "mysql"));
         }
 
         public Builder table(Table table) {
