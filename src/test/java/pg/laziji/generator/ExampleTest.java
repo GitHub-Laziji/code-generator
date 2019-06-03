@@ -19,19 +19,13 @@ public class ExampleTest {
     private GeneratorService generatorService;
 
     @Test
-    public void test(){
-        String zipPath = "/home/code.zip";
-
-//        String[] tableNames = new String[]{"table1","table2"};
-//        generatorService.generateZip(tableNames,zipPath);
-
-        TableItem[] tableItems = new TableItem[]{
+    public void test() {
+        generatorService.generateZip(new TableItem[]{
                 TableItem.newBuilder()
                         .tableName("table1")
                         .dynamicPathVariable("className", "TableA")
                         .build(),
                 new TableItem("table2")
-        };
-        generatorService.generateZip(tableItems,zipPath);
+        }, "/home/code.zip");
     }
 }
