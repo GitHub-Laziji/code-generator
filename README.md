@@ -115,7 +115,7 @@ public class ExampleTest {
 文件的动态路径变量
 
 - `packagePath` 包路径 例如`com/e/test`
-- `className` 类名 来自表信息转驼峰命名法, 可覆盖
+- `className` 类名 来自表名转驼峰命名法, 可覆盖
 - `lowercaseClassName` 首字母小写的类名
 
 
