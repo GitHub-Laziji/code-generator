@@ -11,7 +11,6 @@ public class Table {
     private String tableType;
     private String tableComment;
     private List<Column> columns;
-    private String customClassName;
 
     public String getTableName() {
         return tableName;
@@ -43,17 +42,6 @@ public class Table {
 
     public void setColumns(List<Column> columns) {
         this.columns = columns;
-    }
-
-    public String getCustomClassName() {
-        if(customClassName!=null){
-            return customClassName;
-        }
-        return getClassName();
-    }
-
-    public void setCustomClassName(String customClassName) {
-        this.customClassName = customClassName;
     }
 
     public String getClassName() {
