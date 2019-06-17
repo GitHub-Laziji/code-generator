@@ -29,7 +29,7 @@
 - `{lowercaseClassName}` 首字母小写的类名
 - 其他自定义的属性
 
-一般按以下配置即可, 也可以自行扩展
+一般按以下配置即可, 数据库支持`mysql`和`oracle`
 ```yml
 generator:
   datasource:
@@ -51,7 +51,7 @@ generator:
 # 使用
 在test文件下创建测试类
 - `@ActiveProfiles("example")`中填入刚才配置文件名的`name`
-- `tableNames`需要生成的表, 可以多个
+- `tableNames`需要生成的表, 可以多个, `newBuilder`使用构造类 自定义类名, 以及其他参数
 - `zipPath` 代码导出路径
 
 调用`generatorService.generateZip`传入参数可以是表名数组`String[]`或者`TableItem[]`
