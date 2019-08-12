@@ -8,10 +8,11 @@
 
 > 欢迎贡献各种模版
 
-目前项目中包含两个模版在`resources`下, 如果模版不合适可以自己模仿其中的模版进行修改
+目前项目中包含这些模版在`resources`下, 如果模版不合适可以自己模仿其中的模版进行修改
 
 - `mybatis2` 是根据 [commons-mybatis](https://github.com/GitHub-Laziji/commons-mybatis) 通用`Mapper`编写的, 依赖`commons-mybatis 2.0`
 - `mybatis-default` 这个生成的是简单的`mybatis`实体类、Dao接口以及XML, 不依赖其他包
+- `mybatis-plus` 生成mybatis-plus使用的实体类以及Mapper文件, 依赖mybatis-plus
 
 
 # 配置文件
