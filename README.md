@@ -8,6 +8,7 @@
 
 > 欢迎贡献各种模版
 
+# 已有模板
 目前项目中包含这些模版在`resources`下, 如果模版不合适可以自己模仿其中的模版进行修改
 
 - `mybatis2` 是根据 [commons-mybatis](https://github.com/GitHub-Laziji/commons-mybatis) 通用`Mapper`编写的, 依赖`commons-mybatis 2.0`
@@ -20,15 +21,17 @@
 
 配置文件属性:
 - `generator.datasource` 填入自己的项目数据库相关配置
-- `generator.package` 项目包名
-- `generator.template.mapping` 用于自定义生成文件的包格式以及文件名
-- `generator.template.path` 表示模版文件的路径目前可以选`mybatis` 或 `mybatis-default`
 
-`generator.template.mapping`中可选的动态属性包含:
+- `generator.package` 项目包名
+
+- `generator.template.base-path` 表示模版文件的路径目前可选模板请看 [已有模板](#已有模板)
+- `generator.template.output-paths` 用于自定义生成文件相对路径
+
+`generator.template.output-paths`中可选的动态属性包含:
 - `{packagePath}` 包文件路径 例如: `com/xxx/xxx`
 - `{className}` 类名 由表名使用驼峰命名法得来 可覆盖
 - `{lowercaseClassName}` 首字母小写的类名
-- 其他自定义的属性
+- 其他自定义的属性, `'\'`为转义符 其后的字符不进行解析
 
 一般按以下配置即可, 数据库支持`mysql`和`oracle`
 ```yml
@@ -41,8 +44,8 @@ generator:
     
   package: com.xxx.xxx
   template:
-    path: mybatis2
-    mapping: |
+    base-path: mybatis2
+    output-paths: |
       Model.java.vm: main/java/{packagePath}/database/model/{className}.java
       Query.java.vm: main/java/{packagePath}/database/query/{className}Query.java
       Dao.java.vm: main/java/{packagePath}/database/dao/{className}Dao.java

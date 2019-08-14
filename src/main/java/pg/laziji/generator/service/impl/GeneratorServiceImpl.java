@@ -22,11 +22,11 @@ import java.util.zip.ZipOutputStream;
 @Service
 public class GeneratorServiceImpl implements GeneratorService {
 
-    @Value("${generator.template.path:}")
-    private String templatePath;
+    @Value("${generator.template.base-path:}")
+    private String templateBasePath;
 
-    @Value("${generator.template.mapping:}")
-    private String templateMapping;
+    @Value("${generator.template.output-paths:}")
+    private String templateOutputPaths;
 
     @Value("${generator.datasource.type:mysql}")
     private String datasourceType;
@@ -58,6 +58,36 @@ public class GeneratorServiceImpl implements GeneratorService {
         }
     }
 
+    private static String replace(String pattern, Map<String, String> context) throws Exception {
+        char[] patternChars = pattern.toCharArray();
+        StringBuilder valueBuffer = new StringBuilder();
+        StringBuilder variableNameBuffer = null;
+        boolean inVariable = false;
+        for (int i = 0; i < patternChars.length; ++i) {
+            if (!inVariable && patternChars[i] == '{') {
+                inVariable = true;
+                variableNameBuffer = new StringBuilder();
+                continue;
+            }
+            if (inVariable && patternChars[i] == '}') {
+                inVariable = false;
+                String variable = context.get(variableNameBuffer.toString());
+                valueBuffer.append(variable == null ? "null" : variable);
+                variableNameBuffer = null;
+                continue;
+            }
+            if (patternChars[i] == '\\' && ++i == patternChars.length) {
+                throw new Exception("Missing characters after '\\'.");
+            }
+            StringBuilder activeBuffer = inVariable ? variableNameBuffer : valueBuffer;
+            activeBuffer.append(patternChars[i]);
+        }
+        if (variableNameBuffer != null) {
+            throw new Exception("End missing }.");
+        }
+        return valueBuffer.toString();
+    }
+
 
     private void generatorCode(TemplateContext context, ZipOutputStream zos) {
         Properties prop = new Properties();
@@ -65,8 +95,8 @@ public class GeneratorServiceImpl implements GeneratorService {
         Velocity.init(prop);
         VelocityContext velocityContext = new VelocityContext(context.toMap());
 
-        Map<String, String> templateMap = parseTemplateMapping(context);
-        for (Map.Entry<String, String> entry : templateMap.entrySet()) {
+        Map<String, String> outputPathMap = parseTemplateOutputPaths(context);
+        for (Map.Entry<String, String> entry : outputPathMap.entrySet()) {
             Template template = Velocity.getTemplate(entry.getKey(), "UTF-8");
             try (StringWriter writer = new StringWriter()) {
                 template.merge(velocityContext, writer);
@@ -79,22 +109,22 @@ public class GeneratorServiceImpl implements GeneratorService {
         }
     }
 
-    private Map<String, String> parseTemplateMapping(TemplateContext context) {
-        String[] rows = templateMapping.split("\n");
-        Map<String, String> templateMap = new HashMap<>();
+    private Map<String, String> parseTemplateOutputPaths(TemplateContext context) {
+        String[] rows = templateOutputPaths.split("\n");
+        Map<String, String> outputPathMap = new HashMap<>();
         for (String row : rows) {
             int index = row.indexOf(":");
             if (index == -1) {
                 continue;
             }
-            String type = row.substring(0, index).trim();
-            String path = row.substring(index + 1).trim();
-
-            for (Map.Entry<String, String> entry : context.getDynamicPathVariables().entrySet()) {
-                path = path.replace("{" + entry.getKey() + "}", entry.getValue());
+            String fileName = row.substring(0, index).trim();
+            try {
+                String path = replace(row.substring(index + 1).trim(), context.getDynamicPathVariables());
+                outputPathMap.put(templateBasePath + "/" + fileName, path);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            templateMap.put(templatePath + "/" + type, path);
         }
-        return templateMap;
+        return outputPathMap;
     }
 }
