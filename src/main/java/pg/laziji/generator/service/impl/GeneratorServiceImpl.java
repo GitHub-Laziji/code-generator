@@ -4,8 +4,11 @@ import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import pg.laziji.generator.model.Table;
 import pg.laziji.generator.model.TableItem;
 import pg.laziji.generator.model.TemplateContext;
 import pg.laziji.generator.service.GeneratorService;
@@ -21,6 +24,8 @@ import java.util.zip.ZipOutputStream;
 
 @Service
 public class GeneratorServiceImpl implements GeneratorService {
+
+    private static final Logger log = LoggerFactory.getLogger(GeneratorServiceImpl.class);
 
     @Value("${generator.template.base-path:}")
     private String templateBasePath;
@@ -46,9 +51,14 @@ public class GeneratorServiceImpl implements GeneratorService {
         try (FileOutputStream fos = new FileOutputStream(zipPath)) {
             try (ZipOutputStream zos = new ZipOutputStream(fos)) {
                 for (TableItem item : tableItems) {
+                    Table table = tableService.getTable(item.getTableName());
+                    if(table==null){
+                        log.warn("表[{}] 信息查询失败",item.getTableName());
+                        continue;
+                    }
                     generatorCode(TemplateContext.newBuilder()
                             .templateVariables(item.getTemplateVariables())
-                            .table(tableService.getTable(item.getTableName()))
+                            .table(table)
                             .dynamicPathVariables(item.getDynamicPathVariables())
                             .build(), zos);
                 }
