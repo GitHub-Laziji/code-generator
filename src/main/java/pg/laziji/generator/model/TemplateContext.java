@@ -1,6 +1,9 @@
 package pg.laziji.generator.model;
 
+import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
+import pg.laziji.generator.constant.KeyConsts;
 import pg.laziji.generator.util.ConfigUtils;
 import pg.laziji.generator.util.SpringContextUtils;
 import pg.laziji.generator.util.TemplateUtils;
@@ -80,22 +83,30 @@ public class TemplateContext {
 
         private Builder() {
             String packageName = environment.getProperty("generator.package", "pkg");
-            context.getDynamicPathVariables().put("packagePath", packageName.replace(".", "/"));
+            context.getDynamicPathVariables().put(KeyConsts.PACKAGE_PATH, packageName.replace(".", "/"));
         }
 
         public Builder table(Table table) {
             if (table != null) {
                 context.setTable(table);
-                context.getDynamicPathVariables().put("className", table.getClassName());
-                context.getDynamicPathVariables().put("lowercaseClassName", table.getLowercaseClassName());
+                context.getDynamicPathVariables().put(KeyConsts.CLASS_NAME, table.getClassName());
+                context.getDynamicPathVariables().put(KeyConsts.LOWERCASE_CLASS_NAME, table.getLowercaseClassName());
             }
             return this;
         }
 
         public Builder dynamicPathVariables(Map<String, String> variables) {
             if (variables != null) {
+                Map<String, String> dynamicPathVariables = context.getDynamicPathVariables();
                 for (Map.Entry<String, String> entry : variables.entrySet()) {
-                    context.getDynamicPathVariables().put(entry.getKey(), entry.getValue());
+                    dynamicPathVariables.put(entry.getKey(), entry.getValue());
+                }
+                String className = dynamicPathVariables.get(KeyConsts.CLASS_NAME);
+                String lowercaseClassName = dynamicPathVariables.get(KeyConsts.CLASS_NAME);
+                if (StringUtils.isNotBlank(className)) {
+                    dynamicPathVariables.put(KeyConsts.LOWERCASE_CLASS_NAME, StringUtils.uncapitalize(className));
+                } else if (StringUtils.isNotBlank(lowercaseClassName)) {
+                    dynamicPathVariables.put(KeyConsts.CLASS_NAME, WordUtils.capitalizeFully(lowercaseClassName));
                 }
             }
             return this;
