@@ -1,6 +1,5 @@
 package pg.laziji.generator.model;
 
-import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
 import pg.laziji.generator.constant.KeyConsts;
@@ -97,16 +96,20 @@ public class TemplateContext {
 
         public Builder dynamicPathVariables(Map<String, String> variables) {
             if (variables != null) {
-                Map<String, String> dynamicPathVariables = context.getDynamicPathVariables();
+                Map<String, String> cloneVariables = new HashMap<>();
                 for (Map.Entry<String, String> entry : variables.entrySet()) {
-                    dynamicPathVariables.put(entry.getKey(), entry.getValue());
+                    cloneVariables.put(entry.getKey(), entry.getValue());
                 }
-                String className = dynamicPathVariables.get(KeyConsts.CLASS_NAME);
-                String lowercaseClassName = dynamicPathVariables.get(KeyConsts.CLASS_NAME);
+                String className = cloneVariables.get(KeyConsts.CLASS_NAME);
+                String lowercaseClassName = cloneVariables.get(KeyConsts.LOWERCASE_CLASS_NAME);
                 if (StringUtils.isNotBlank(className)) {
-                    dynamicPathVariables.put(KeyConsts.LOWERCASE_CLASS_NAME, StringUtils.uncapitalize(className));
+                    cloneVariables.put(KeyConsts.LOWERCASE_CLASS_NAME, StringUtils.uncapitalize(className));
                 } else if (StringUtils.isNotBlank(lowercaseClassName)) {
-                    dynamicPathVariables.put(KeyConsts.CLASS_NAME, WordUtils.capitalizeFully(lowercaseClassName));
+                    cloneVariables.put(KeyConsts.CLASS_NAME,
+                            lowercaseClassName.substring(0, 1).toUpperCase() + lowercaseClassName.substring(1));
+                }
+                for (Map.Entry<String, String> entry : cloneVariables.entrySet()) {
+                    context.getDynamicPathVariables().put(entry.getKey(), entry.getValue());
                 }
             }
             return this;
