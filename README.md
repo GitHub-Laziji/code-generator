@@ -21,17 +21,13 @@
 
 配置文件属性:
 - `generator.datasource` 填入自己的项目数据库相关配置
-
 - `generator.package` 项目包名
-
 - `generator.template.base-path` 表示模版文件的路径目前可选模板请看 [已有模板](#已有模板)
-- `generator.template.output-paths` 用于自定义生成文件相对路径
-
-`generator.template.output-paths`中可选的动态属性包含:
-- `{packagePath}` 包文件路径 例如: `com/xxx/xxx`
-- `{className}` 类名 由表名使用驼峰命名法得来 可覆盖
-- `{lowercaseClassName}` 首字母小写的类名
-- 其他自定义的属性, `'\'`为转义符 其后的字符不进行解析
+- `generator.template.output-paths` 模板输出相对路径, 每行一个, 格式为`[模板文件名]: [模板输出相对路径,可使用{}引入动态变量]`可选动态变量包含:
+- - `{packagePath}` 包文件路径, 例如: `com/xxx/xxx`
+- - `{className}` 类名, 由表名转成驼峰命名法得来 可覆盖
+- - `{lowercaseClassName}` 首字母小写的类名
+- - 以及其他`dynamicPath`域中的自定义属性, `'\'`为转义符, 其后的字符不进行解析
 
 一般按以下配置即可, 数据库支持`mysql`和`oracle`
 ```yml
