@@ -99,10 +99,11 @@ public class Column {
     }
 
     public String getUppercaseAttributeName() {
-        if(columnName==null){
+        if (columnName == null) {
             return null;
         }
-        return WordUtils.capitalizeFully(columnName, new char[]{'_'}).replace("_", "");
+        return WordUtils.capitalizeFully(columnName.toLowerCase(), new char[]{'_'})
+                .replace("_", "");
     }
 
     public String getAttributeName() {
@@ -110,10 +111,10 @@ public class Column {
     }
 
     public String getAttributeType() {
-        if(dataType==null){
+        if (dataType == null) {
             return null;
         }
-        String type = dataType.toLowerCase().replace("unsigned","").trim();
+        String type = dataType.toLowerCase().replace("unsigned", "").trim();
         return typeMap.getOrDefault(type, "Object");
     }
 }

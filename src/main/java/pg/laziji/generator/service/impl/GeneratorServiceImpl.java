@@ -25,6 +25,12 @@ import java.util.zip.ZipOutputStream;
 @Service
 public class GeneratorServiceImpl implements GeneratorService {
 
+    static {
+        Properties prop = new Properties();
+        prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        Velocity.init(prop);
+    }
+
     private static final Logger log = LoggerFactory.getLogger(GeneratorServiceImpl.class);
 
     @Value("${generator.template.base-path:}")
@@ -52,8 +58,8 @@ public class GeneratorServiceImpl implements GeneratorService {
             try (ZipOutputStream zos = new ZipOutputStream(fos)) {
                 for (TableItem item : tableItems) {
                     Table table = tableService.getTable(item.getTableName());
-                    if(table==null){
-                        log.warn("表[{}] 信息查询失败",item.getTableName());
+                    if (table == null) {
+                        log.warn("表[{}] 信息查询失败", item.getTableName());
                         continue;
                     }
                     generatorCode(TemplateContext.newBuilder()
@@ -87,24 +93,20 @@ public class GeneratorServiceImpl implements GeneratorService {
                 continue;
             }
             if (patternChars[i] == '\\' && ++i == patternChars.length) {
-                throw new Exception("Missing characters after '\\'.");
+                throw new Exception("转义符 '\\' 后缺少字符");
             }
             StringBuilder activeBuffer = inVariable ? variableNameBuffer : valueBuffer;
             activeBuffer.append(patternChars[i]);
         }
         if (variableNameBuffer != null) {
-            throw new Exception("End missing }.");
+            throw new Exception("结尾缺少 '}' ");
         }
         return valueBuffer.toString();
     }
 
 
     private void generatorCode(TemplateContext context, ZipOutputStream zos) {
-        Properties prop = new Properties();
-        prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-        Velocity.init(prop);
         VelocityContext velocityContext = new VelocityContext(context.toMap());
-
         Map<String, String> outputPathMap = parseTemplateOutputPaths(context);
         for (Map.Entry<String, String> entry : outputPathMap.entrySet()) {
             Template template = Velocity.getTemplate(entry.getKey(), "UTF-8");

@@ -48,7 +48,8 @@ public class Table {
         if (tableName == null) {
             return null;
         }
-        return WordUtils.capitalizeFully(tableName, new char[]{'_'}).replace("_", "");
+        return WordUtils.capitalizeFully(tableName.toLowerCase(), new char[]{'_'})
+                .replace("_", "");
     }
 
     public String getLowercaseClassName() {

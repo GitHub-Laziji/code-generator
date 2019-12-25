@@ -7,6 +7,7 @@ import pg.laziji.generator.model.Table;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class BaseTableService implements TableService {
 
@@ -36,15 +37,18 @@ public abstract class BaseTableService implements TableService {
     }
 
 
-    private Table getMetaDataTable(Connection connection, String tableNamePattern) throws SQLException {
+    private Table getMetaDataTable(Connection connection, String tableName) throws SQLException {
         ResultSet resultSet = connection.getMetaData().getTables(
                 connection.getCatalog(),
                 connection.getSchema(),
-                tableNamePattern,
+                tableName,
                 null);
         if (resultSet.next()) {
+            if (!Objects.equals(tableName, resultSet.getString("TABLE_NAME"))) {
+                return null;
+            }
             Table table = new Table();
-            table.setTableName(resultSet.getString("TABLE_NAME"));
+            table.setTableName(tableName);
             table.setTableType(resultSet.getString("TABLE_TYPE"));
             table.setTableComment(resultSet.getString("REMARKS"));
             return table;
@@ -52,15 +56,18 @@ public abstract class BaseTableService implements TableService {
         return null;
     }
 
-    private List<Column> listMetaDataColumn(Connection connection, String tableNamePattern) throws SQLException {
+    private List<Column> listMetaDataColumn(Connection connection, String tableName) throws SQLException {
         ResultSet resultSet = connection.getMetaData().getColumns(connection.getCatalog(),
                 connection.getSchema(),
-                tableNamePattern,
+                tableName,
                 null);
         List<Column> columns = new ArrayList<>();
         while (resultSet.next()) {
+            if (!Objects.equals(tableName, resultSet.getString("TABLE_NAME"))) {
+                continue;
+            }
             Column column = new Column();
-            column.setTableName(resultSet.getString("TABLE_NAME"));
+            column.setTableName(tableName);
             column.setColumnName(resultSet.getString("COLUMN_NAME"));
             column.setDataType(resultSet.getString("TYPE_NAME"));
             column.setColumnSize(resultSet.getInt("COLUMN_SIZE"));
