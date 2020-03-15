@@ -27,6 +27,6 @@ public class ExampleTest {
                         .dynamicPathVariable(KeyConsts.CLASS_NAME, "TableA")
                         .build(),
                 new TableItem("table2")
-        }, "/home/code.zip");
+        }, "./entity.zip");
     }
 }

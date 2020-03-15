@@ -3,9 +3,9 @@
 #set ( $tpl = ${template} )
 #set ( $package = ${sys.config.get("generator.package")} )
 #set ( $className = ${dp.className} )
-package ${package}.database.mapper;
+package ${package}.mapper;
 
-import ${package}.database.model.${className};
+import ${package}.entity.${className};
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;

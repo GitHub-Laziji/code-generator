@@ -3,7 +3,7 @@
 #set ( $tpl = ${template} )
 #set ( $package = ${sys.config.get("generator.package")} )
 #set ( $className = ${dp.className} )
-package ${package}.database.model;
+package ${package}.entity;
 
 import java.util.Date;
 import com.alibaba.fastjson.JSON;

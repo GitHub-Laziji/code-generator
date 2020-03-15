@@ -9,9 +9,7 @@ generator:
 
   package: com.g.example
   template:
-    base-path: mybatis2
+    base-path: mybatis-plus
     output-paths: |
-      Model.java.vm: main/java/{packagePath}/database/model/{className}.java
-      Query.java.vm: main/java/{packagePath}/database/query/{className}Query.java
-      Dao.java.vm: main/java/{packagePath}/database/dao/{className}Dao.java
-      Service.java.vm: main/java/{packagePath}/database/service/{className}Service.java
+      Entity.java.vm: src/main/java/{packagePath}/entity/{className}.java
+      Mapper.java.vm: src/main/java/{packagePath}/mapper/{className}Mapper.java
