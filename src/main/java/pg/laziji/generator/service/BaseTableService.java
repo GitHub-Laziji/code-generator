@@ -23,6 +23,8 @@ public abstract class BaseTableService implements TableService {
 
     protected abstract String getDriverClassName();
 
+    protected abstract String analysisDataType(Column column);
+
     @Override
     public Table getTable(String tableName) throws Exception {
         try (Connection connection = getConnection()) {
