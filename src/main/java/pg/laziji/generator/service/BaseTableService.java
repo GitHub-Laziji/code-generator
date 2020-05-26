@@ -68,11 +68,13 @@ public abstract class BaseTableService implements TableService {
             if (!Objects.equals(tableName, resultSet.getString("TABLE_NAME"))) {
                 continue;
             }
+
             Column column = new Column();
             column.setTableName(tableName);
             column.setColumnName(resultSet.getString("COLUMN_NAME"));
             column.setDataType(resultSet.getString("TYPE_NAME"));
             column.setColumnSize(resultSet.getInt("COLUMN_SIZE"));
+            column.setDecimalDigits(resultSet.getInt("DECIMAL_DIGITS"));
             column.setColumnComment(resultSet.getString("REMARKS"));
 
             String nullAble = resultSet.getString("IS_NULLABLE");
@@ -83,6 +85,9 @@ public abstract class BaseTableService implements TableService {
             if (autoIncrement != null) {
                 column.setAutoIncrement("YES".equals(autoIncrement));
             }
+
+            column.setAttributeType(analysisDataType(column));
+
             columns.add(column);
         }
         return columns;

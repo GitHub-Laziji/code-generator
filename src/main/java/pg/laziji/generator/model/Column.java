@@ -9,46 +9,18 @@ import java.util.Map;
 
 public class Column {
 
-    private static final Map<String, String> typeMap = new HashMap<>();
-
-    static {
-        typeMap.put("bit", "Boolean");
-        typeMap.put("boolean", "Boolean");
-        typeMap.put("tinyint", "Integer");
-        typeMap.put("smallint", "Integer");
-        typeMap.put("mediumint", "Integer");
-        typeMap.put("int", "Integer");
-        typeMap.put("integer", "Integer");
-        typeMap.put("bigint", "Long");
-        typeMap.put("decimal", "Long");
-        typeMap.put("float", "Float");
-        typeMap.put("double", "Double");
-        typeMap.put("number", "Double");
-        typeMap.put("date", "Date");
-        typeMap.put("time", "Date");
-        typeMap.put("year", "Date");
-        typeMap.put("datetime", "Date");
-        typeMap.put("timestamp", "Date");
-        typeMap.put("char", "String");
-        typeMap.put("varchar", "String");
-        typeMap.put("tinyblob", "String");
-        typeMap.put("tinytext", "String");
-        typeMap.put("blob", "String");
-        typeMap.put("text", "String");
-        typeMap.put("mediumblob", "String");
-        typeMap.put("mediumtext", "String");
-        typeMap.put("longblob", "String");
-        typeMap.put("longtext", "String");
-        typeMap.put("string", "String");
-    }
-
     private String tableName;
     private String columnName;
     private String dataType;
     private String columnComment;
     private Integer columnSize;
+    private Integer decimalDigits;
     private boolean nullAble;
     private boolean autoIncrement;
+
+    private String attributeName;
+    private String uppercaseAttributeName;
+    private String attributeType;
 
 
     public boolean isAutoIncrement() {
@@ -83,12 +55,23 @@ public class Column {
         this.columnSize = columnSize;
     }
 
+    public Integer getDecimalDigits() {
+        return decimalDigits;
+    }
+
+    public void setDecimalDigits(Integer decimalDigits) {
+        this.decimalDigits = decimalDigits;
+    }
+
     public String getColumnName() {
         return columnName;
     }
 
     public void setColumnName(String columnName) {
         this.columnName = columnName;
+        this.uppercaseAttributeName = WordUtils.capitalizeFully(columnName.toLowerCase(), new char[]{'_'})
+                .replace("_", "");
+        this.attributeName = StringUtils.uncapitalize(this.uppercaseAttributeName);
     }
 
     public String getDataType() {
@@ -107,23 +90,20 @@ public class Column {
         this.columnComment = columnComment;
     }
 
-    public String getUppercaseAttributeName() {
-        if (columnName == null) {
-            return null;
-        }
-        return WordUtils.capitalizeFully(columnName.toLowerCase(), new char[]{'_'})
-                .replace("_", "");
-    }
-
-    public String getAttributeName() {
-        return StringUtils.uncapitalize(getUppercaseAttributeName());
+    public void setAttributeType(String attributeType) {
+        this.attributeType = attributeType;
     }
 
     public String getAttributeType() {
-        if (dataType == null) {
-            return null;
-        }
-        String type = dataType.toLowerCase().replace("unsigned", "").trim();
-        return typeMap.getOrDefault(type, "Object");
+        return attributeType;
     }
+
+    public String getUppercaseAttributeName() {
+        return uppercaseAttributeName;
+    }
+
+    public String getAttributeName() {
+        return attributeName;
+    }
+
 }

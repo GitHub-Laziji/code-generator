@@ -19,6 +19,6 @@ public class OracleTableServiceImpl extends BaseTableService {
 
     @Override
     protected String analysisDataType(Column column) {
-       return null;
+       return Object.class.getSimpleName();
     }
 }

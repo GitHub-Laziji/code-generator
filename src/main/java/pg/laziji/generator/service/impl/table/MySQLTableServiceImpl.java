@@ -47,6 +47,10 @@ public class MySQLTableServiceImpl extends BaseTableService {
 
     @Override
     protected String analysisDataType(Column column) {
-        return typeMap.getOrDefault(column.getDataType(), "Object");
+        if (column == null || column.getDataType() == null) {
+            return Object.class.getSimpleName();
+        }
+        return typeMap.getOrDefault(column.getDataType().toLowerCase().replace("unsigned", "").trim(),
+                Object.class.getSimpleName());
     }
 }
