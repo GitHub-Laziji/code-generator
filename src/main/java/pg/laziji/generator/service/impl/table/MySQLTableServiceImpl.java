@@ -4,40 +4,41 @@ import org.springframework.stereotype.Service;
 import pg.laziji.generator.model.Column;
 import pg.laziji.generator.service.BaseTableService;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service("mysql")
 public class MySQLTableServiceImpl extends BaseTableService {
 
-    private static final Map<String, String> typeMap = new HashMap<>();
+    private static final Map<String, Class> typeMap = new HashMap<>();
 
     static {
-        typeMap.put("bit", "Boolean");
-        typeMap.put("tinyint", "Integer");
-        typeMap.put("smallint", "Integer");
-        typeMap.put("mediumint", "Integer");
-        typeMap.put("int", "Integer");
-        typeMap.put("integer", "Integer");
-        typeMap.put("bigint", "Long");
-        typeMap.put("decimal", "Long");
-        typeMap.put("float", "Float");
-        typeMap.put("double", "Double");
-        typeMap.put("date", "Date");
-        typeMap.put("time", "Date");
-        typeMap.put("year", "Date");
-        typeMap.put("datetime", "Date");
-        typeMap.put("timestamp", "Date");
-        typeMap.put("char", "String");
-        typeMap.put("varchar", "String");
-        typeMap.put("tinyblob", "String");
-        typeMap.put("tinytext", "String");
-        typeMap.put("blob", "String");
-        typeMap.put("text", "String");
-        typeMap.put("mediumblob", "String");
-        typeMap.put("mediumtext", "String");
-        typeMap.put("longblob", "String");
-        typeMap.put("longtext", "String");
+        typeMap.put("bit", Boolean.class);
+        typeMap.put("tinyint", Integer.class);
+        typeMap.put("smallint", Integer.class);
+        typeMap.put("mediumint", Integer.class);
+        typeMap.put("int", Integer.class);
+        typeMap.put("integer", Integer.class);
+        typeMap.put("bigint", Long.class);
+        typeMap.put("decimal", Long.class);
+        typeMap.put("float", Float.class);
+        typeMap.put("double", Double.class);
+        typeMap.put("date", Date.class);
+        typeMap.put("time", Date.class);
+        typeMap.put("year", Date.class);
+        typeMap.put("datetime", Date.class);
+        typeMap.put("timestamp", Date.class);
+        typeMap.put("char", String.class);
+        typeMap.put("varchar", String.class);
+        typeMap.put("tinyblob", String.class);
+        typeMap.put("tinytext", String.class);
+        typeMap.put("blob", String.class);
+        typeMap.put("text", String.class);
+        typeMap.put("mediumblob", String.class);
+        typeMap.put("mediumtext", String.class);
+        typeMap.put("longblob", String.class);
+        typeMap.put("longtext", String.class);
     }
 
     @Override
@@ -50,7 +51,8 @@ public class MySQLTableServiceImpl extends BaseTableService {
         if (column == null || column.getDataType() == null) {
             return Object.class.getSimpleName();
         }
-        return typeMap.getOrDefault(column.getDataType().toLowerCase().replace("unsigned", "").trim(),
-                Object.class.getSimpleName());
+        return typeMap.getOrDefault(
+                column.getDataType().toLowerCase().replace("unsigned", "").trim(),
+                Object.class).getSimpleName();
     }
 }
