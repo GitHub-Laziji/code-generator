@@ -12,12 +12,21 @@ public class Table {
     private String tableComment;
     private List<Column> columns;
 
+    private String className;
+
+    private String lowercaseClassName;
+
     public String getTableName() {
         return tableName;
     }
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
+        if (this.tableName != null) {
+            this.className = WordUtils.capitalizeFully(tableName.toLowerCase(), new char[]{'_'})
+                    .replace("_", "");
+            this.lowercaseClassName = StringUtils.uncapitalize(this.className);
+        }
     }
 
     public String getTableType() {
@@ -45,14 +54,10 @@ public class Table {
     }
 
     public String getClassName() {
-        if (tableName == null) {
-            return null;
-        }
-        return WordUtils.capitalizeFully(tableName.toLowerCase(), new char[]{'_'})
-                .replace("_", "");
+        return className;
     }
 
     public String getLowercaseClassName() {
-        return StringUtils.uncapitalize(getClassName());
+        return lowercaseClassName;
     }
 }

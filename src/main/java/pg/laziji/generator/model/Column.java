@@ -69,9 +69,11 @@ public class Column {
 
     public void setColumnName(String columnName) {
         this.columnName = columnName;
-        this.uppercaseAttributeName = WordUtils.capitalizeFully(columnName.toLowerCase(), new char[]{'_'})
-                .replace("_", "");
-        this.attributeName = StringUtils.uncapitalize(this.uppercaseAttributeName);
+        if (this.columnName != null) {
+            this.uppercaseAttributeName = WordUtils.capitalizeFully(this.columnName.toLowerCase(), new char[]{'_'})
+                    .replace("_", "");
+            this.attributeName = StringUtils.uncapitalize(this.uppercaseAttributeName);
+        }
     }
 
     public String getDataType() {
