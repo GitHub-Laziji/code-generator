@@ -11,19 +11,17 @@ import java.util.Map;
 @Service("oracle")
 public class OracleTableServiceImpl extends BaseTableService {
 
-    private static final Map<String, Class> typeMap = new HashMap<>();
-
-    static {
-        typeMap.put("integer", Integer.class);
-        typeMap.put("float", Float.class);
-        typeMap.put("number", Double.class);
-        typeMap.put("date", Date.class);
-        typeMap.put("timestamp", Date.class);
-        typeMap.put("char", String.class);
-        typeMap.put("varchar2", String.class);
-        typeMap.put("nvarchar2", String.class);
-        typeMap.put("clob", String.class);
-        typeMap.put("nclob", String.class);
+    {
+        addTypeHandler("integer", Integer.class);
+        addTypeHandler("float", Float.class);
+        addTypeHandler("date", Date.class);
+        addTypeHandler("timestamp", Date.class);
+        addTypeHandler("char", String.class);
+        addTypeHandler("varchar2", String.class);
+        addTypeHandler("nvarchar2", String.class);
+        addTypeHandler("clob", String.class);
+        addTypeHandler("nclob", String.class);
+        addTypeHandler("number", column -> column.getDecimalDigits() == null || column.getDecimalDigits() == 0 ? Long.class : Double.class);
     }
 
     @Override
@@ -36,8 +34,10 @@ public class OracleTableServiceImpl extends BaseTableService {
         if (column == null || column.getDataType() == null) {
             return Object.class.getSimpleName();
         }
-        return typeMap.getOrDefault(
+        return getTypeMappingOrDefault(
                 column.getDataType().toLowerCase().replace("unsigned", "").trim(),
-                Object.class).getSimpleName();
+                column,
+                Object.class
+        ).getSimpleName();
     }
 }

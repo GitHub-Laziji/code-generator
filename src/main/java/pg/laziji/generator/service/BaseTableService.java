@@ -5,12 +5,11 @@ import pg.laziji.generator.model.Column;
 import pg.laziji.generator.model.Table;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class BaseTableService implements TableService {
 
+    private final Map<String, TypeHandler> typeHandlerMap = new HashMap<>();
 
     @Value("${generator.datasource.url}")
     private String url;
@@ -36,6 +35,22 @@ public abstract class BaseTableService implements TableService {
             table.setColumns(columns);
             return table;
         }
+    }
+
+    protected void addTypeHandler(String dataType, Class clazz) {
+        this.typeHandlerMap.put(dataType, column -> clazz);
+    }
+
+    protected void addTypeHandler(String dataType, TypeHandler handler) {
+        this.typeHandlerMap.put(dataType, handler);
+    }
+
+    protected Class getTypeMappingOrDefault(String dataType, Column column, Class clazz) {
+        TypeHandler handler = this.typeHandlerMap.get(dataType);
+        if (handler == null) {
+            return clazz;
+        }
+        return handler.handle(column);
     }
 
 
@@ -96,5 +111,10 @@ public abstract class BaseTableService implements TableService {
     private Connection getConnection() throws SQLException, ClassNotFoundException {
         Class.forName(getDriverClassName());
         return DriverManager.getConnection(url, username, password);
+    }
+
+    @FunctionalInterface
+    protected interface TypeHandler {
+        Class handle(Column column);
     }
 }
