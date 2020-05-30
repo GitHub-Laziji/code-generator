@@ -13,7 +13,6 @@ public class Table {
     private List<Column> columns;
 
     private String className;
-
     private String lowercaseClassName;
 
     public String getTableName() {
