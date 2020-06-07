@@ -5,8 +5,6 @@ import pg.laziji.generator.model.Column;
 import pg.laziji.generator.service.BaseTableService;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service("oracle")
 public class OracleTableServiceImpl extends BaseTableService {

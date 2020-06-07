@@ -1,11 +1,7 @@
 package pg.laziji.generator.model;
 
-
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Column {
 
