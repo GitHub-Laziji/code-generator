@@ -13,4 +13,5 @@ generator:
     output-paths: |
       Entity.java.vm: src/main/java/{packagePath}/entity/{className}.java
       Mapper.java.vm: src/main/java/{packagePath}/mapper/{className}Mapper.java
-      Service.java.vm: src/main/java/{packagePath}/service/impl/{className}ServiceImpl.java
+      Service.java.vm: src/main/java/{packagePath}/service/{className}Service.java
+      ServiceImpl.java.vm: src/main/java/{packagePath}/service/impl/{className}ServiceImpl.java
