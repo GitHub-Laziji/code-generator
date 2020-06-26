@@ -38,12 +38,14 @@ generator:
     username: xxxxxx
     password: xxxxxx
     
-  package: com.xxx.xxx
+  package: com.g.example
   template:
     base-path: mybatis-plus
     output-paths: |
       Entity.java.vm: src/main/java/{packagePath}/entity/{className}.java
       Mapper.java.vm: src/main/java/{packagePath}/mapper/{className}Mapper.java
+      Service.java.vm: src/main/java/{packagePath}/service/{className}Service.java
+      ServiceImpl.java.vm: src/main/java/{packagePath}/service/impl/{className}ServiceImpl.java
 ```
 
 # 使用
@@ -53,8 +55,6 @@ generator:
 - `zipPath` 代码导出路径
 
 调用`generatorService.generateZip`传入参数可以是表名数组`String[]`或者`TableItem[]`
-
-> 生成的压缩包如果解压出错可以选择`360解压`
 
 运行测试方法
 ```Java
