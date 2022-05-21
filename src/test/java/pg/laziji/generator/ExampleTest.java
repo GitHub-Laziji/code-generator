@@ -7,7 +7,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import pg.laziji.generator.constant.KeyConsts;
 import pg.laziji.generator.model.TableItem;
-import pg.laziji.generator.service.GeneratorService;
+import pg.laziji.generator.service.impl.gen.CodeGeneratorServiceImpl;
 
 import javax.annotation.Resource;
 
@@ -17,11 +17,11 @@ import javax.annotation.Resource;
 public class ExampleTest {
 
     @Resource
-    private GeneratorService generatorService;
+    private CodeGeneratorServiceImpl codeGeneratorService;
 
     @Test
     public void test() {
-        generatorService.generateZip(new TableItem[]{
+        codeGeneratorService.generate(new TableItem[]{
                 TableItem.newBuilder()
                         .tableName("table1")
                         .dynamicPathVariable(KeyConsts.CLASS_NAME, "TableA")

@@ -1,8 +1,7 @@
 package pg.laziji.generator.service.impl.table;
 
+import oracle.jdbc.driver.OracleDriver;
 import org.springframework.stereotype.Service;
-import pg.laziji.generator.model.Column;
-import pg.laziji.generator.service.BaseTableService;
 
 import java.util.Date;
 
@@ -24,19 +23,8 @@ public class OracleTableServiceImpl extends BaseTableService {
     }
 
     @Override
-    protected String getDriverClassName() {
-        return "oracle.jdbc.driver.OracleDriver";
+    protected Class<OracleDriver>  getDriverClass() {
+        return OracleDriver.class;
     }
 
-    @Override
-    protected String analysisDataType(Column column) {
-        if (column == null || column.getDataType() == null) {
-            return Object.class.getSimpleName();
-        }
-        return getTypeMappingOrDefault(
-                column.getDataType().toLowerCase().replace("unsigned", "").trim(),
-                column,
-                Object.class
-        ).getSimpleName();
-    }
 }

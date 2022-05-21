@@ -1,14 +1,13 @@
 package pg.laziji.generator.service.impl.table;
 
+
+import com.mysql.jdbc.Driver;
 import org.springframework.stereotype.Service;
-import pg.laziji.generator.model.Column;
-import pg.laziji.generator.service.BaseTableService;
 
 import java.util.Date;
 
 @Service("mysql")
 public class MySQLTableServiceImpl extends BaseTableService {
-
 
     {
         addTypeHandler("bit", Boolean.class);
@@ -39,19 +38,8 @@ public class MySQLTableServiceImpl extends BaseTableService {
     }
 
     @Override
-    protected String getDriverClassName() {
-        return "com.mysql.jdbc.Driver";
+    protected Class<Driver> getDriverClass() {
+        return Driver.class;
     }
 
-    @Override
-    protected String analysisDataType(Column column) {
-        if (column == null || column.getDataType() == null) {
-            return Object.class.getSimpleName();
-        }
-        return getTypeMappingOrDefault(
-                column.getDataType().toLowerCase().replace("unsigned", "").trim(),
-                column,
-                Object.class
-        ).getSimpleName();
-    }
 }

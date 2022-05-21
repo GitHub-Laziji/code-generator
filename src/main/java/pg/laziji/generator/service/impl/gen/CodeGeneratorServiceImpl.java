@@ -1,4 +1,4 @@
-package pg.laziji.generator.service.impl;
+package pg.laziji.generator.service.impl.gen;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.velocity.Template;
@@ -11,11 +11,12 @@ import org.springframework.stereotype.Service;
 import pg.laziji.generator.model.Table;
 import pg.laziji.generator.model.TableItem;
 import pg.laziji.generator.model.TemplateContext;
-import pg.laziji.generator.service.GeneratorService;
 import pg.laziji.generator.service.TableService;
 import pg.laziji.generator.util.SpringContextUtils;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -23,7 +24,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 @Service
-public class GeneratorServiceImpl implements GeneratorService {
+public class CodeGeneratorServiceImpl extends BaseGeneratorService {
 
     static {
         Properties prop = new Properties();
@@ -31,7 +32,7 @@ public class GeneratorServiceImpl implements GeneratorService {
         Velocity.init(prop);
     }
 
-    private static final Logger log = LoggerFactory.getLogger(GeneratorServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(CodeGeneratorServiceImpl.class);
 
     @Value("${generator.template.base-path:}")
     private String templateBasePath;
@@ -43,18 +44,9 @@ public class GeneratorServiceImpl implements GeneratorService {
     private String datasourceType;
 
     @Override
-    public void generateZip(String[] tableNames, String zipPath) {
-        TableItem[] tableItems = new TableItem[tableNames.length];
-        for (int i = 0; i < tableNames.length; i++) {
-            tableItems[i] = new TableItem(tableNames[i]);
-        }
-        generateZip(tableItems, zipPath);
-    }
-
-    @Override
-    public void generateZip(TableItem[] tableItems, String zipPath) {
+    public void generate(TableItem[] tableItems, String outputPath) {
         TableService tableService = SpringContextUtils.getBean(datasourceType, TableService.class);
-        try (FileOutputStream fos = new FileOutputStream(zipPath)) {
+        try (FileOutputStream fos = new FileOutputStream(outputPath)) {
             try (ZipOutputStream zos = new ZipOutputStream(fos)) {
                 for (TableItem item : tableItems) {
                     Table table = tableService.getTable(item.getTableName());

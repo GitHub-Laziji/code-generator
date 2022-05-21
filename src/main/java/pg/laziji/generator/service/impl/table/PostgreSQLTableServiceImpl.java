@@ -1,14 +1,12 @@
 package pg.laziji.generator.service.impl.table;
 
+import org.postgresql.Driver;
 import org.springframework.stereotype.Service;
-import pg.laziji.generator.model.Column;
-import pg.laziji.generator.service.BaseTableService;
 
 import java.util.Date;
 
 @Service("postgresql")
 public class PostgreSQLTableServiceImpl extends BaseTableService {
-
 
     {
         addTypeHandler("int2", Short.class);
@@ -25,19 +23,8 @@ public class PostgreSQLTableServiceImpl extends BaseTableService {
     }
 
     @Override
-    protected String getDriverClassName() {
-        return "org.postgresql.Driver";
+    protected Class<Driver> getDriverClass() {
+        return Driver.class;
     }
 
-    @Override
-    protected String analysisDataType(Column column) {
-        if (column == null || column.getDataType() == null) {
-            return Object.class.getSimpleName();
-        }
-        return getTypeMappingOrDefault(
-                column.getDataType().toLowerCase().replace("unsigned", "").trim(),
-                column,
-                Object.class
-        ).getSimpleName();
-    }
 }

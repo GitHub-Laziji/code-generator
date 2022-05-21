@@ -4,7 +4,7 @@ import pg.laziji.generator.model.TableItem;
 
 public interface GeneratorService {
 
-    void generateZip(String[] tableNames, String zipPath);
+    void generate(String[] tableNames, String outputPath);
 
-    void generateZip(TableItem[] tableItems, String zipPath);
+    void generate(TableItem[] tableItems, String outputPath);
 }

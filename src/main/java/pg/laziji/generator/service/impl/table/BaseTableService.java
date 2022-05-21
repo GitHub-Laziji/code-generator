@@ -1,8 +1,9 @@
-package pg.laziji.generator.service;
+package pg.laziji.generator.service.impl.table;
 
 import org.springframework.beans.factory.annotation.Value;
 import pg.laziji.generator.model.Column;
 import pg.laziji.generator.model.Table;
+import pg.laziji.generator.service.TableService;
 
 import java.sql.*;
 import java.util.*;
@@ -20,9 +21,7 @@ public abstract class BaseTableService implements TableService {
     @Value("${generator.datasource.password}")
     private String password;
 
-    protected abstract String getDriverClassName();
-
-    protected abstract String analysisDataType(Column column);
+    protected abstract Class<? extends Driver> getDriverClass();
 
     @Override
     public Table getTable(String tableName) throws Exception {
@@ -37,7 +36,18 @@ public abstract class BaseTableService implements TableService {
         }
     }
 
-    protected void addTypeHandler(String dataType, Class clazz) {
+    protected String analysisDataType(Column column) {
+        if (column == null || column.getDataType() == null) {
+            return Object.class.getSimpleName();
+        }
+        return getTypeMappingOrDefault(
+                column.getDataType().toLowerCase().replace("unsigned", "").trim(),
+                column,
+                Object.class
+        ).getSimpleName();
+    }
+
+    protected void addTypeHandler(String dataType, Class<?> clazz) {
         this.typeHandlerMap.put(dataType, column -> clazz);
     }
 
@@ -45,7 +55,7 @@ public abstract class BaseTableService implements TableService {
         this.typeHandlerMap.put(dataType, handler);
     }
 
-    protected Class getTypeMappingOrDefault(String dataType, Column column, Class clazz) {
+    protected Class<?> getTypeMappingOrDefault(String dataType, Column column, Class<?> clazz) {
         TypeHandler handler = this.typeHandlerMap.get(dataType);
         if (handler == null) {
             return clazz;
@@ -109,12 +119,11 @@ public abstract class BaseTableService implements TableService {
     }
 
     private Connection getConnection() throws SQLException, ClassNotFoundException {
-        Class.forName(getDriverClassName());
         return DriverManager.getConnection(url, username, password);
     }
 
     @FunctionalInterface
     protected interface TypeHandler {
-        Class handle(Column column);
+        Class<?> handle(Column column);
     }
 }
