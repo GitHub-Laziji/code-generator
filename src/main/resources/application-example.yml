@@ -1,12 +1,12 @@
 
 generator:
+  # code generator
   datasource:
     # mysql or oracle, default mysql
     type: mysql
     url: jdbc:mysql://127.0.0.1:3306/example?characterEncoding=utf-8
     username: root
     password: root
-
   package: com.g.example
   template:
     base-path: mybatis-plus
@@ -15,3 +15,6 @@ generator:
       Mapper.java.vm: src/main/java/{packagePath}/mapper/{className}Mapper.java
       Service.java.vm: src/main/java/{packagePath}/service/{className}Service.java
       ServiceImpl.java.vm: src/main/java/{packagePath}/service/impl/{className}ServiceImpl.java
+
+  # doc generator
+  # ...
