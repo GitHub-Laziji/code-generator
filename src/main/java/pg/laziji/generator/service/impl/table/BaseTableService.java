@@ -118,7 +118,7 @@ public abstract class BaseTableService implements TableService {
         return columns;
     }
 
-    private Connection getConnection() throws SQLException, ClassNotFoundException {
+    private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }
 
