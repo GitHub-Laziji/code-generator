@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import pg.laziji.generator.model.Table;
 import pg.laziji.generator.model.TableItem;
 import pg.laziji.generator.model.TemplateContext;
+import pg.laziji.generator.service.GeneratorService;
 import pg.laziji.generator.service.TableService;
 import pg.laziji.generator.util.SpringContextUtils;
 
@@ -25,7 +26,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 @Service
-public class CodeGeneratorServiceImpl extends BaseGeneratorService {
+public class CodeGeneratorServiceImpl implements GeneratorService {
 
     static {
         Properties prop = new Properties();
@@ -44,7 +45,14 @@ public class CodeGeneratorServiceImpl extends BaseGeneratorService {
     @Value("${generator.datasource.type:mysql}")
     private String datasourceType;
 
-    @Override
+    public void generate(String[] tableNames, String outputPath) {
+        TableItem[] tableItems = new TableItem[tableNames.length];
+        for (int i = 0; i < tableNames.length; i++) {
+            tableItems[i] = new TableItem(tableNames[i]);
+        }
+        generate(tableItems, outputPath);
+    }
+
     public void generate(TableItem[] tableItems, String outputPath) {
         TableService tableService = SpringContextUtils.getBean(datasourceType, TableService.class);
         try (FileOutputStream fos = new FileOutputStream(outputPath)) {
